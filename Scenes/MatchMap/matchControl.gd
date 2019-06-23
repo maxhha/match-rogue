@@ -197,6 +197,6 @@ func _draw():
 	if STATE == STATES.HINT:
 		for x in range(XCOUNT):
 			for y in range(YCOUNT):
-				draw_rect(Rect2(x*ITEM_SIZE, y*ITEM_SIZE, ITEM_SIZE-16, ITEM_SIZE-16), Color.gray)
+				draw_rect(Rect2(x*ITEM_SIZE, y*ITEM_SIZE, ITEM_SIZE-2*3, ITEM_SIZE-2*3), Color.gray)
 
 

@@ -19,6 +19,8 @@ func set_color(c):
 func move(p):
 	_target = p
 	STATE = STATES.MOVE
+	if position.y < 0:
+		self_modulate.a = 0
 	
 func destroy():
 	_start = position + Vector2.ONE*ITEM_SIZE/2
@@ -34,9 +36,11 @@ func _process(delta):
 	match STATE:
 		STATES.MOVE:
 			var d = _target - position
+			self_modulate.a = clamp((ITEM_SIZE+position.y)/ITEM_SIZE, 0, 1)
 			if d.length() <= MOVE_SPEED*delta:
 				position = _target
 				STATE = STATES.NONE
+				self_modulate.a = 1
 				emit_signal('finish_move')
 			else:
 				position += d.clamped(MOVE_SPEED*delta)
