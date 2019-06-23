@@ -3,6 +3,10 @@ extends Control
 
 var score = 0 setget set_score
 var count_swaps = 0 setget set_count_swaps
+var can_swap = true setget set_can_swap
+
+func set_can_swap(s):
+	can_swap = s
 
 signal score_changed(new_score)
 signal count_swaps_changed(new_count_swaps)
@@ -129,8 +133,13 @@ func _swap_items(p1,p2):
 	i1.move(p2*ITEM_SIZE)
 	i2.move(p1*ITEM_SIZE)
 	
-	_wait_queue.push_front(Waiter.new(i1, 'finish_move'))
-	_wait_queue.push_front(Waiter.new(i2, 'finish_move'))
+	wait(i1, 'finish_move')
+	wait(i2, 'finish_move')
+	
+	STATE = STATES.WAIT
+
+func wait(obj, signal_name):
+	_wait_queue.push_front(Waiter.new(obj, signal_name))
 	STATE = STATES.WAIT
 
 func _on_chain_remove(chain):
@@ -151,7 +160,8 @@ func _gui_input(event):
 		STATES.NONE:
 			if (event is InputEventMouseButton
 			and event.is_pressed()
-			and event.button_index == BUTTON_LEFT):
+			and event.button_index == BUTTON_LEFT
+			and can_swap):
 				var p = get_local_mouse_position()
 				if click_rect.has_point(p):
 					items[local2grid(p)].on_focus_enter()

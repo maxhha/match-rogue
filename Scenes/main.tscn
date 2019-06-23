@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/main.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/MatchMap/matchControl.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=3]
 [ext_resource path="res://Sprites/room1.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/player.png" type="Texture" id=5]
-[ext_resource path="res://Scenes/player.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/map.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/player.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/player.gd" type="Script" id=7]
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -28,9 +29,10 @@ position = Vector2( 10, 50 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 4 )
 centered = false
+script = ExtResource( 5 )
 
 [node name="player" type="Sprite" parent="map"]
 use_parent_material = true
 position = Vector2( 24, 88 )
-texture = ExtResource( 5 )
-script = ExtResource( 6 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
