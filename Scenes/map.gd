@@ -16,7 +16,7 @@ var current_unit = 0
 func _ready():
 	global.map = self
 	
-	player.position = grid2local(Vector2(-1, HEIGHT-1))
+	player.position = grid2local(Vector2(-2, HEIGHT-1))
 	player.map_pos = Vector2(0, HEIGHT-1)
 	player.move(grid2local(Vector2(0, HEIGHT-1)))
 	map[Vector2(0, HEIGHT-1)] = player
