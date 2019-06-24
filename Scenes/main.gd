@@ -2,7 +2,7 @@ extends Control
 
 onready var map = $VBoxContainer/Control2/map_control/map
 onready var player = map.get_node("player")
-onready var matchControl = $VBoxContainer/Control/HBoxContainer/Control2/matchControl
+onready var matchControl = $VBoxContainer/Control/matchControl
 
 func _ready():
 	matchControl.match_map.connect("swap", self, "_on_swap")
