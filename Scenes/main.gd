@@ -11,8 +11,15 @@ func _ready():
 func _on_swap(p1,p2):
 	var dir = p2 - p1
 	matchControl.can_swap = false
+	var next_pos = player.map_pos+dir
 	
-	if map.is_in_room(player.map_pos+dir):
-		map.move(player, player.map_pos+dir)
-	else:
-		map.next()
+	if map.is_in_room(next_pos):
+		map.move(player, next_pos)
+	elif map.is_exit(next_pos):
+		map.move(player, next_pos)
+		map.player.connect("move_finished", self, "restart")
+	
+	map.next()
+
+func restart():
+	get_tree().reload_current_scene()

@@ -1,6 +1,6 @@
 extends Sprite
 
-const MOVE_SPEED = 50
+const MOVE_SPEED = 40
 
 enum {NONE, MOVE}
 var STATE = NONE

@@ -14,12 +14,21 @@ var units = []
 var current_unit = 0
 
 func _ready():
-	units.append(player)
 	global.map = self
+	
 	player.position = grid2local(Vector2(-1, HEIGHT-1))
 	player.map_pos = Vector2(0, HEIGHT-1)
 	player.move(grid2local(Vector2(0, HEIGHT-1)))
 	map[Vector2(0, HEIGHT-1)] = player
+	
+	units.append(player)
+	
+	for u in get_children():
+		if u != player:
+			units.append(u)
+			u.map_pos = local2grid(u.position)
+			u.position = grid2local(u.map_pos)
+			map[u.map_pos] = u
 
 var _wait_queue = []
 
@@ -40,7 +49,7 @@ func move(obj, p):
 		map[obj.map_pos] = null
 		obj.map_pos = p
 		obj.move(grid2local(p))
-		obj.connect("move_finished", self, "next", [], CONNECT_ONESHOT | CONNECT_DEFERRED)
+		wait(obj, "move_finished")
 	else:
 		push_error("Error move")
 
@@ -63,10 +72,20 @@ func _process(delta):
 				current_unit = (current_unit + 1) % len(units)
 				if units[current_unit] == player:
 					emit_signal("player_turn")
+				else:
+					units[current_unit].turn(self)
+
+func is_free(p):
+	p = p.floor()
+	return map.get(p) == null 
 
 func is_in_room(p):
 	p = p.floor()
 	return p.x >= 0 and p.y >= 0 and p.x < WIDTH and p.y < HEIGHT
+
+func is_exit(p):
+	p = p.floor()
+	return p.x == WIDTH and p.y >= HEIGHT-2 and p.y < HEIGHT
 
 func grid2local(p):
 	return (p + Vector2.ONE*1.5)*CELL_SIZE
