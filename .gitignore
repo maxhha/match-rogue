@@ -1,7 +1,6 @@
 *.kra
 *~
 .import/
-Fonts/
 Exports/
 export_presets.cfg
 *#

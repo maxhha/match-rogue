@@ -70,48 +70,12 @@ func input_swap(map, dir : Vector2):
 					y_velocity = 0
 				while map.is_free(Vector2.DOWN+next_pos) and  map.is_in_room(Vector2.DOWN+next_pos):
 					next_pos.y += 1
-		
-		
-		
+	
 		if map.is_in_room(next_pos) and map.is_free(next_pos):
 			map.move(self, next_pos)
 		elif map.is_exit(next_pos):
 			map.move(self, next_pos+dir)
 			connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
-#
-#
-#
-#	var next_pos = map_pos
-#	if not is_on_floor():
-#		y_velocity += 1
-#
-#	match dir:
-#		Vector2.LEFT, Vector2.RIGHT:
-#			next_pos = map_pos+dir
-#		Vector2.UP:
-#			if is_on_floor():
-#				y_velocity = JUMP_SPEED
-#		Vector2.DOWN:
-#			if y_velocity < 0:
-#				y_velocity = 0
-#
-#	next_pos.y += sign(y_velocity)
-#
-#	var can_move = next_pos != map_pos
-#
-#	if can_move and next_pos.distance_squared_to(map_pos) > 1:
-#		can_move = (
-#			map.is_free(Vector2(next_pos.x, map_pos.y))
-#			or map.is_free(Vector2(map_pos.x, next_pos.y)))
-#
-#	if can_move:
-#		if map.is_in_room(next_pos) and map.is_free(next_pos):
-#			map.move(self, next_pos)
-#		elif map.is_exit(next_pos):
-#			map.move(self, next_pos+dir)
-#			connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
-#
-#
 	map.next()
 
 func is_on_floor():
