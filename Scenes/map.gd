@@ -29,6 +29,14 @@ func _ready():
 			u.map_pos = local2grid(u.position)
 			u.position = grid2local(u.map_pos)
 			map[u.map_pos] = u
+			u.connect("dead", self, "_on_dead_obj", [u])
+
+func _on_dead_obj(u):
+	map[u.map_pos] = null
+	var i = units.find(u)
+	if i < current_unit:
+		current_unit -= 1
+	units.remove(i)
 
 var _wait_queue = []
 
@@ -92,3 +100,23 @@ func grid2local(p):
 
 func local2grid(p):
 	return (p / CELL_SIZE).floor() - Vector2.ONE
+
+func can_move_to(obj, p):
+	p = p.floor()
+	return (
+		(is_in_room(p) or (
+			obj == player and is_exit(p))
+			) 
+		and is_free(p)
+	)
+
+func can_attack(obj, p):
+	p = p.floor()
+	return (
+		map.get(p, null) != null 
+		and obj.map_pos != p
+		and obj.can_attack(map[p])
+	)
+
+func get(p):
+	return map.get(p.floor())

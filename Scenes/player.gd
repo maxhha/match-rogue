@@ -8,9 +8,12 @@ var STATE = NONE
 # warning-ignore:unused_class_variable
 var map_pos = Vector2()
 
+var pwr_values = [0,0,0,0]
+
 var _target
 
 signal move_finished
+# warning-ignore:unused_signal
 signal exited
 
 func move(p):
@@ -31,53 +34,127 @@ func _process(delta):
 			else:
 				position += MOVE_SPEED * delta * d.normalized()
 
-const JUMP_SPEED = -1
+const JUMP_SPEED = 1
 var y_velocity = 0
 
 func input_swap(map, dir : Vector2):
 	dir = dir.floor()
+	var new_pos = map_pos
 	
-	if is_on_floor():
-		y_velocity = 0
-		match dir:
-			Vector2.LEFT, Vector2.RIGHT:
-				var next_pos = dir + map_pos
-				if map.is_in_room(next_pos) and map.is_free(next_pos):
-					map.move(self, next_pos)
-				elif map.is_exit(next_pos):
-					map.move(self, next_pos+dir)
-					connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
-			Vector2.UP:
-				var next_pos = dir + map_pos
-				if map.is_in_room(next_pos) and map.is_free(next_pos):
-					map.move(self, next_pos)
-				y_velocity = JUMP_SPEED
-	else:
+	#update gravity
+	if not is_on_floor():
 		y_velocity += 1
-		var next_pos =Vector2.DOWN*sign(y_velocity) + map_pos
-		match dir:
-			Vector2.LEFT, Vector2.RIGHT:
-				var can_move = true
-				if sign(y_velocity):
-					can_move = (
-						map.is_free(Vector2(next_pos.x+dir.x, map_pos.y))
-						or map.is_free(Vector2(map_pos.x, next_pos.y))
-					)
-				if can_move and map.is_free(next_pos+dir):
-					next_pos += dir
-			Vector2.DOWN:
-				if y_velocity < 0:
-					y_velocity = 0
-				while map.is_free(Vector2.DOWN+next_pos) and  map.is_in_room(Vector2.DOWN+next_pos):
-					next_pos.y += 1
+	else:
+		y_velocity = 0
 	
-		if map.is_in_room(next_pos) and map.is_free(next_pos):
-			map.move(self, next_pos)
-		elif map.is_exit(next_pos):
-			map.move(self, next_pos+dir)
+	#first make input action
+	match dir:
+		Vector2.LEFT, Vector2.RIGHT:
+			new_pos += dir
+		Vector2.UP:
+			if is_on_floor():
+				y_velocity = -JUMP_SPEED
+		Vector2.DOWN:
+			if not is_on_floor():
+				if y_velocity < 1:
+					y_velocity = 1
+				
+				# move to bottom
+#				var next = new_pos 
+#				while map.is_free(Vector2.DOWN+next) and  map.is_in_room(Vector2.DOWN+next):
+#					next.y += 1
+#				y_velocity = 0
+#				new_pos = next
+	
+	
+	if not map.can_move_to(self, new_pos):
+		new_pos = map_pos
+	
+	if y_velocity != 0:
+		new_pos.y += sign(y_velocity)
+		
+		if not map.can_move_to(self, new_pos):
+			new_pos.x = map_pos.x
+			
+			if not map.can_move_to(self, new_pos):
+				new_pos.y = map_pos.y
+	
+	var attack_pos = dir+map_pos
+	if map.can_attack(self, attack_pos):
+		attack(map.get(attack_pos))
+	
+	if new_pos != map_pos:
+		if map.is_exit(new_pos):
+			map.move(self, new_pos+Vector2.RIGHT)
+# warning-ignore:return_value_discarded
 			connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
+		else:
+			map.move(self, new_pos)
+	
 	map.next()
+	
+	
+	
+	
+#	# this movement code support diagonal move,
+#	# even if there is a horizontal obstacle
+#	if is_on_floor():
+#		y_velocity = 0
+#		match dir:
+#			Vector2.LEFT, Vector2.RIGHT:
+#				var next_pos = dir + map_pos
+#				if map.is_in_room(next_pos) and map.is_free(next_pos):
+#					map.move(self, next_pos)
+#				elif map.is_exit(next_pos):
+#					map.move(self, next_pos+dir)
+## warning-ignore:return_value_discarded
+#					connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
+#			Vector2.UP:
+#				var next_pos = dir + map_pos
+#				if map.is_in_room(next_pos) and map.is_free(next_pos):
+#					map.move(self, next_pos)
+#				y_velocity = JUMP_SPEED
+#	else:
+#		y_velocity += 1
+#		var next_pos =Vector2.DOWN*sign(y_velocity) + map_pos
+#		match dir:
+#			Vector2.LEFT, Vector2.RIGHT:
+#				var can_move = true
+#				if sign(y_velocity):
+#					can_move = (
+#						map.is_free(Vector2(next_pos.x+dir.x, map_pos.y))
+#						or map.is_free(Vector2(map_pos.x, next_pos.y))
+#					)
+#				if can_move and map.is_free(next_pos+dir):
+#					next_pos += dir
+#			Vector2.DOWN:
+#				if y_velocity < 0:
+#					y_velocity = 0
+#				while map.is_free(Vector2.DOWN+next_pos) and  map.is_in_room(Vector2.DOWN+next_pos):
+#					next_pos.y += 1
+#
+#		if map.is_in_room(next_pos) and map.is_free(next_pos):
+#			map.move(self, next_pos)
+#		elif map.is_exit(next_pos):
+#			map.move(self, next_pos+dir)
+## warning-ignore:return_value_discarded
+#			connect("move_finished", self, "emit_signal", ["exited"], CONNECT_ONESHOT | CONNECT_DEFERRED)
+#	map.next()
+	
 
 func is_on_floor():
 	var under = map_pos + Vector2.DOWN
 	return not global.map.is_in_room(under)
+
+func _on_update_power_values(values):
+	pwr_values = values
+
+func attack(obj):
+	if can_attack(obj):
+		obj.get_damage(1)
+
+func can_attack(obj):
+	for i in range(pwr_values.size()):
+		if int(pwr_values[i]) < int(obj.pwr_values[i]):
+			return false
+	return true

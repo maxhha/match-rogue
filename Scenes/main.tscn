@@ -80,6 +80,7 @@ texture = ExtResource( 7 )
 script = ExtResource( 8 )
 
 [node name="Control3" type="Control" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 461.0
 margin_right = 600.0
 margin_bottom = 613.0

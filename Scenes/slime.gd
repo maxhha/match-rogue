@@ -5,8 +5,20 @@ const MOVE_SPEED = 40
 enum {NONE, MOVE}
 var STATE = NONE
 
+var health = 1 setget set_health
+
+signal dead
+
+func set_health(h):
+	health = h
+	if health <= 0:
+		emit_signal("dead")
+		queue_free()
+
 # warning-ignore:unused_class_variable
 var map_pos = Vector2()
+
+var pwr_values = [0,0,0,0]
 
 var _target
 
@@ -39,3 +51,6 @@ func turn(map):
 		var i = randi() % len(possible_moves)
 		map.move(self, possible_moves[i] + map_pos)
 		map.next()
+
+func get_damage(dmg):
+	self.health -= dmg

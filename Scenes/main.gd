@@ -20,6 +20,7 @@ func _ready():
 	_values_coefs = [1, 0.5, 0.25, 0.12, 0.06]
 	_calculated_values = [0,0,0,0]
 	_current_values = [0,0,0,0]
+# warning-ignore:unused_variable
 	for i in range(COUNT_TYPES):
 		_values_queue.append([])
 	
@@ -37,6 +38,8 @@ func _ready():
 	# Values calculator connect
 	matchControl.connect("element_removed", self, "_on_element_removed")
 	matchControl.connect("update_finished", self, "_on_update_finished")
+# warning-ignore:return_value_discarded
+	connect("update_values", player, "_on_update_power_values")
 
 func _on_swap(p1,p2):
 	var dir = p2 - p1
