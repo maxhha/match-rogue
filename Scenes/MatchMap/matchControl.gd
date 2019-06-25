@@ -10,6 +10,8 @@ func set_can_swap(s):
 
 signal score_changed(new_score)
 signal count_swaps_changed(new_count_swaps)
+signal element_removed(type)
+signal update_finished()
 
 func set_score(s):
 	score = s
@@ -147,6 +149,7 @@ func _on_chain_remove(chain):
 		if items[p]:
 			var r = items[p]
 			items[p] = null
+			emit_signal("element_removed", r.frame)
 			r.destroy()
 			_wait_queue.push_front(Waiter.new(r, 'finish_destroy'))
 			score += 1
@@ -188,6 +191,7 @@ func _process(delta):
 			match_map.update()
 			if match_map.is_update_finished():
 				STATE = STATES.NONE
+				emit_signal("update_finished")
 		STATES.WAIT:
 			for i in range(_wait_queue.size()-1,-1,-1):
 				if _wait_queue[i].finished:
