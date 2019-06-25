@@ -18,7 +18,7 @@ func set_health(h):
 # warning-ignore:unused_class_variable
 var map_pos = Vector2()
 
-var pwr_values = [0,0,0,0]
+var pwr_values = [0,1,0,0]
 
 var _target
 
@@ -41,11 +41,17 @@ func _process(delta):
 
 func turn(map):
 	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)]
+	var possible_attacks = []
 	for i in range(len(possible_moves)-1, -1, -1):
 		var target_pos = map_pos + possible_moves[i]
 		if not (map.is_in_room(target_pos) and map.is_free(target_pos)):
 			possible_moves.remove(i)
-	if len(possible_moves) == 0:
+		if map.get(target_pos) == map.player:
+			possible_attacks.append(target_pos)
+	if len(possible_attacks) > 0:
+		attack(map.get(possible_attacks[0]))
+		map.next()
+	elif len(possible_moves) == 0:
 		map.next()
 	else:
 		var i = randi() % len(possible_moves)
@@ -54,3 +60,6 @@ func turn(map):
 
 func get_damage(dmg):
 	self.health -= dmg
+
+func attack(obj):
+	obj.get_damage(1)

@@ -158,3 +158,6 @@ func can_attack(obj):
 		if int(pwr_values[i]) < int(obj.pwr_values[i]):
 			return false
 	return true
+
+func get_damage(dmg):
+	print("damaged")
