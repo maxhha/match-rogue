@@ -1,6 +1,7 @@
-extends Sprite
+extends AnimatedSprite
 
 const MOVE_SPEED = 40
+const MELEE_ATTACK_TIME = 0.5
 
 enum {NONE, MOVE}
 var STATE = NONE
@@ -20,9 +21,13 @@ var map_pos = Vector2()
 
 var pwr_values = [0,1,0,0]
 
+var _start
+var _finish
 var _target
+var _timer
 
 signal move_finished
+signal attack_finished
 
 func move(p):
 	_target = p
@@ -38,6 +43,8 @@ func _process(delta):
 				emit_signal("move_finished")
 			else:
 				position += MOVE_SPEED * delta * d.normalized()
+				if abs(d.x) > 0:
+					scale.x = sign(d.x)
 
 func turn(map):
 	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)]
@@ -63,3 +70,7 @@ func get_damage(dmg):
 
 func attack(obj):
 	obj.get_damage(1)
+	var d = obj.map_pos - map_pos
+	if abs(d.x) > 0:
+		scale.x = sign(d.x)
+		

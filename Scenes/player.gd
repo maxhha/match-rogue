@@ -1,4 +1,4 @@
-extends Sprite
+extends AnimatedSprite
 
 const MOVE_SPEED = 40
 
@@ -32,8 +32,16 @@ func _process(delta):
 				STATE = NONE
 				emit_signal("move_finished")
 			else:
+				if d.y < 0:
+					play("jump_up")
 				position += MOVE_SPEED * delta * d.normalized()
-
+				if abs(d.x) > 0:
+					scale.x = sign(d.x)
+		NONE:
+			if is_on_floor():
+				play("idle")
+			else:
+				play("jump_"+("down" if y_velocity > -1 else "up"))
 const JUMP_SPEED = 1
 var y_velocity = 0
 
@@ -93,9 +101,6 @@ func input_swap(map, dir : Vector2):
 	
 	map.next()
 	
-	
-	
-	
 #	# this movement code support diagonal move,
 #	# even if there is a horizontal obstacle
 #	if is_on_floor():
@@ -152,6 +157,10 @@ func _on_update_power_values(values):
 func attack(obj):
 	if can_attack(obj):
 		obj.get_damage(1)
+		var d = obj.map_pos - map_pos
+		if abs(d.x) > 0:
+			scale.x = sign(d.x)
+		
 
 func can_attack(obj):
 	for i in range(pwr_values.size()):
@@ -159,5 +168,6 @@ func can_attack(obj):
 			return false
 	return true
 
+# warning-ignore:unused_argument
 func get_damage(dmg):
 	print("damaged")
