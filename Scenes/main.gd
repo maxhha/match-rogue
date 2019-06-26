@@ -69,4 +69,12 @@ func _on_update_finished():
 		_calculated_values[t] = s
 		_current_values[t] = 0
 	emit_signal("update_values", _calculated_values)
-		
+
+func _on_map_show_info(item):
+	var p = $popup_info
+	p.clear()
+	p.set_name(item._name)
+	for i in range(item.pwr_values.size()):
+		if item.pwr_values[i] > 0:
+			p.add_pwr_value(i, item.pwr_values[i])
+	p.popup(item.global_position+Vector2.DOWN*map.CELL_SIZE/2*map.scale)

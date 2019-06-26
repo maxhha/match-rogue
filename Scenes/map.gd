@@ -120,3 +120,16 @@ func can_attack(obj, p):
 
 func get(p):
 	return map.get(p.floor())
+
+signal show_info(item)
+
+func _input(event):
+	if event is InputEventMouseButton and event.is_pressed():
+		var p = get_local_mouse_position()
+		if get_used_rect().has_point(p):
+			var i = get(local2grid(p))
+			if i and i != player:
+				emit_signal("show_info", i)
+
+func get_used_rect()->Rect2:
+	return Rect2(CELL_SIZE, CELL_SIZE, WIDTH*CELL_SIZE, HEIGHT*CELL_SIZE)

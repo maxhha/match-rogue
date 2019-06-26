@@ -8,6 +8,7 @@ enum {NONE, MOVE, DEAD}
 var STATE = NONE
 
 var health = 1 setget set_health
+var _name = "Slime"
 
 signal dead
 
