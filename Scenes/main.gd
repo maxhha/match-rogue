@@ -40,6 +40,10 @@ func _ready():
 	matchControl.connect("update_finished", self, "_on_update_finished")
 # warning-ignore:return_value_discarded
 	connect("update_values", player, "_on_update_power_values")
+# warning-ignore:return_value_discarded
+	var health_bar = $VBoxContainer/Control3/health_bar
+	player.connect("health_changed", health_bar, "_on_health_change")
+	health_bar._on_health_change(player.health)
 
 func _on_swap(p1,p2):
 	var dir = p2 - p1

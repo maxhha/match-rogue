@@ -26,7 +26,7 @@ use_parent_material = true
 position = Vector2( 120, 88.125 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 3
+frame = 2
 playing = true
 script = ExtResource( 6 )
 

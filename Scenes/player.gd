@@ -168,8 +168,15 @@ func can_attack(obj):
 			return false
 	return true
 
+var health = 3 setget set_health
+signal health_changed(new_val)
+
+func set_health(h):
+	health = h
+	emit_signal("health_changed", h)
+
 # warning-ignore:unused_argument
 func get_damage(dmg, attacker):
 	$hit_effect.play(map_pos - attacker.map_pos)
 	get_parent().wait($hit_effect, "finished")
-	print("damaged")
+	self.health -= dmg

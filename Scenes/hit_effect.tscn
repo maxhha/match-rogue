@@ -54,4 +54,5 @@ amount = 12
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
+visibility_rect = Rect2( -4.32821, -9.82838, 24.9762, 20.939 )
 process_material = SubResource( 7 )

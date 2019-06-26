@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scenes/main.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=2]
@@ -6,30 +6,33 @@
 [ext_resource path="res://Scenes/map.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/ValuesCalculator/summary.gd" type="Script" id=7]
-[ext_resource path="res://Fonts/pixelFJ8pt1__.TTF" type="DynamicFontData" id=8]
-[ext_resource path="res://Sprites/item0_icon.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/item1_icon.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/item2_icon.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/item3_icon.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/ValuesCalculator/table.gd" type="Script" id=13]
-[ext_resource path="res://Scenes/ValuesCalculator/coef.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/ValuesCalculator/counts.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/MatchMap/matchControl.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/health_bar.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/health_point.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Fonts/pixelFJ8pt1__.TTF" type="DynamicFontData" id=9]
+[ext_resource path="res://Sprites/item0_icon.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/heart_icon.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/item2_icon.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/item3_icon.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/ValuesCalculator/summary.gd" type="Script" id=14]
+[ext_resource path="res://Sprites/item1_icon.png" type="Texture" id=15]
+[ext_resource path="res://Scenes/ValuesCalculator/table.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/ValuesCalculator/coef.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/ValuesCalculator/counts.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/MatchMap/matchControl.tscn" type="PackedScene" id=19]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.184314, 0.168627, 0.2, 1 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 24
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 24
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=4]
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -41,6 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Control2" type="Control" parent="VBoxContainer"]
+editor/display_folded = true
 margin_right = 600.0
 margin_bottom = 457.0
 size_flags_horizontal = 3
@@ -58,6 +62,7 @@ margin_right = 288.0
 margin_bottom = 224.0
 
 [node name="map" type="Sprite" parent="VBoxContainer/Control2/map_control"]
+editor/display_folded = true
 material = ExtResource( 2 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
@@ -77,6 +82,15 @@ margin_bottom = 613.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.15
 
+[node name="health_bar" type="HBoxContainer" parent="VBoxContainer/Control3"]
+material = ExtResource( 2 )
+anchor_right = 1.0
+grow_vertical = 0
+alignment = 1
+script = ExtResource( 7 )
+
+[node name="health_point" parent="VBoxContainer/Control3/health_bar" instance=ExtResource( 8 )]
+
 [node name="accordion" type="HBoxContainer" parent="VBoxContainer/Control3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -85,8 +99,139 @@ margin_right = -8.0
 custom_constants/separation = 8
 alignment = 1
 
+[node name="info" type="Panel" parent="VBoxContainer/Control3/accordion"]
+visible = false
+margin_right = 88.0
+margin_bottom = 152.0
+rect_min_size = Vector2( 88, 0 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="info_summary" type="VBoxContainer" parent="VBoxContainer/Control3/accordion/info"]
+editor/display_folded = true
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = -5.0
+alignment = 1
+
+[node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/info/info_summary"]
+margin_right = 72.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 2 )
+text = "INF"
+align = 1
+valign = 1
+
+[node name="level" type="Control" parent="VBoxContainer/Control3/accordion/info/info_summary"]
+margin_top = 31.0
+margin_right = 72.0
+margin_bottom = 55.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+
+[node name="icon" type="TextureRect" parent="VBoxContainer/Control3/accordion/info/info_summary/level"]
+material = ExtResource( 2 )
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 10 )
+expand = true
+
+[node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/info/info_summary/level"]
+margin_left = 28.0
+margin_top = 3.0
+margin_right = 70.0
+margin_bottom = 30.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+
+[node name="health" type="Control" parent="VBoxContainer/Control3/accordion/info/info_summary"]
+margin_top = 59.0
+margin_right = 72.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+
+[node name="icon" type="TextureRect" parent="VBoxContainer/Control3/accordion/info/info_summary/health"]
+material = ExtResource( 2 )
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 11 )
+expand = true
+
+[node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/info/info_summary/health"]
+margin_left = 28.0
+margin_top = 4.0
+margin_right = 70.0
+margin_bottom = 31.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+
+[node name="defence" type="Control" parent="VBoxContainer/Control3/accordion/info/info_summary"]
+margin_top = 87.0
+margin_right = 72.0
+margin_bottom = 111.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+
+[node name="icon" type="TextureRect" parent="VBoxContainer/Control3/accordion/info/info_summary/defence"]
+material = ExtResource( 2 )
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 12 )
+expand = true
+
+[node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/info/info_summary/defence"]
+margin_left = 28.0
+margin_top = 3.0
+margin_right = 70.0
+margin_bottom = 30.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+
+[node name="attack" type="Control" parent="VBoxContainer/Control3/accordion/info/info_summary"]
+margin_top = 115.0
+margin_right = 72.0
+margin_bottom = 139.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+
+[node name="icon" type="TextureRect" parent="VBoxContainer/Control3/accordion/info/info_summary/attack"]
+material = ExtResource( 2 )
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 13 )
+expand = true
+
+[node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/info/info_summary/attack"]
+margin_left = 28.0
+margin_top = 3.0
+margin_right = 70.0
+margin_bottom = 30.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+
 [node name="values" type="Panel" parent="VBoxContainer/Control3/accordion"]
-margin_right = 576.0
+editor/display_folded = true
+margin_right = 584.0
 margin_bottom = 152.0
 rect_min_size = Vector2( 88, 0 )
 rect_clip_content = true
@@ -94,13 +239,14 @@ size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
 
 [node name="summary" type="VBoxContainer" parent="VBoxContainer/Control3/accordion/values"]
+editor/display_folded = true
 anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 80.0
 margin_bottom = -5.0
 alignment = 1
-script = ExtResource( 7 )
+script = ExtResource( 14 )
 Colors = PoolColorArray( 1, 1, 0.333333, 1, 0.980392, 0.160784, 0.160784, 1, 0.152941, 0.537255, 0.8, 1, 0.329412, 1, 0.329412, 1 )
 
 [node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/values/summary"]
@@ -126,7 +272,7 @@ material = ExtResource( 2 )
 margin_right = 24.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 expand = true
 
 [node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/values/summary/numb0"]
@@ -151,7 +297,7 @@ material = ExtResource( 2 )
 margin_right = 24.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 10 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/values/summary/numb1"]
@@ -176,7 +322,7 @@ material = ExtResource( 2 )
 margin_right = 24.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 expand = true
 
 [node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/values/summary/numb2"]
@@ -201,7 +347,7 @@ material = ExtResource( 2 )
 margin_right = 24.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 expand = true
 
 [node name="lbl" type="Label" parent="VBoxContainer/Control3/accordion/values/summary/numb3"]
@@ -215,22 +361,23 @@ text = "0"
 align = 1
 
 [node name="table" type="VBoxContainer" parent="VBoxContainer/Control3/accordion/values"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 88.0
 margin_top = 8.0
 margin_right = -8.0
 margin_bottom = -5.0
-script = ExtResource( 13 )
+script = ExtResource( 16 )
 
 [node name="coefs" type="HBoxContainer" parent="VBoxContainer/Control3/accordion/values/table"]
 editor/display_folded = true
-margin_right = 480.0
+margin_right = 488.0
 margin_bottom = 24.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 
-[node name="lbl1" parent="VBoxContainer/Control3/accordion/values/table/coefs" instance=ExtResource( 14 )]
+[node name="lbl1" parent="VBoxContainer/Control3/accordion/values/table/coefs" instance=ExtResource( 17 )]
 
 [node name="lbl2" type="Label" parent="VBoxContainer/Control3/accordion/values/table/coefs"]
 margin_left = 64.0
@@ -283,41 +430,34 @@ valign = 1
 [node name="count0" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 1, 1, 0.333333, 1 )
 margin_top = 28.0
-margin_right = 480.0
+margin_right = 488.0
 margin_bottom = 52.0
 size_flags_vertical = 3
-script = ExtResource( 15 )
+script = ExtResource( 18 )
 
 [node name="count1" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.980392, 0.160784, 0.160784, 1 )
 margin_top = 56.0
-margin_right = 480.0
+margin_right = 488.0
 margin_bottom = 80.0
 size_flags_vertical = 3
-script = ExtResource( 15 )
+script = ExtResource( 18 )
 
 [node name="count2" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.152941, 0.537255, 0.8, 1 )
 margin_top = 84.0
-margin_right = 480.0
+margin_right = 488.0
 margin_bottom = 108.0
 size_flags_vertical = 3
-script = ExtResource( 15 )
+script = ExtResource( 18 )
 
 [node name="count3" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.329412, 1, 0.329412, 1 )
 margin_top = 112.0
-margin_right = 480.0
+margin_right = 488.0
 margin_bottom = 139.0
 size_flags_vertical = 3
-script = ExtResource( 15 )
-
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/Control3/accordion"]
-margin_left = 584.0
-margin_right = 584.0
-margin_bottom = 152.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.0
+script = ExtResource( 18 )
 
 [node name="Control" type="Control" parent="VBoxContainer"]
 margin_top = 617.0
@@ -326,7 +466,7 @@ margin_bottom = 1024.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
 
-[node name="matchControl" parent="VBoxContainer/Control" instance=ExtResource( 16 )]
+[node name="matchControl" parent="VBoxContainer/Control" instance=ExtResource( 19 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

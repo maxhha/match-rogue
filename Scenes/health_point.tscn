@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=1]
+[ext_resource path="res://Sprites/heart_icon.png" type="Texture" id=2]
+
+[node name="health_point" type="TextureRect"]
+material = ExtResource( 1 )
+use_parent_material = true
+margin_left = 276.0
+margin_right = 324.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 48, 48 )
+texture = ExtResource( 2 )
+expand = true
