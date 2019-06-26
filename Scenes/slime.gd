@@ -2,8 +2,9 @@ extends AnimatedSprite
 
 const MOVE_SPEED = 40
 const MELEE_ATTACK_TIME = 0.5
+const DEAD_TIME = 0.3
 
-enum {NONE, MOVE}
+enum {NONE, MOVE, DEAD}
 var STATE = NONE
 
 var health = 1 setget set_health
@@ -14,7 +15,9 @@ func set_health(h):
 	health = h
 	if health <= 0:
 		emit_signal("dead")
-		queue_free()
+		STATE = DEAD
+		_timer = DEAD_TIME
+		$hit_effect.connect("finished", self, "queue_free")
 
 # warning-ignore:unused_class_variable
 var map_pos = Vector2()
@@ -45,6 +48,10 @@ func _process(delta):
 				position += MOVE_SPEED * delta * d.normalized()
 				if abs(d.x) > 0:
 					scale.x = sign(d.x)
+		DEAD:
+			if _timer > 0:
+				_timer -= delta
+				self_modulate.a = _timer/DEAD_TIME
 
 func turn(map):
 	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)]
@@ -65,11 +72,14 @@ func turn(map):
 		map.move(self, possible_moves[i] + map_pos)
 		map.next()
 
-func get_damage(dmg):
+func get_damage(dmg, attacker):
 	self.health -= dmg
+	$hit_effect.play(map_pos - attacker.map_pos)
+	get_parent().wait($hit_effect, "finished")
+	
 
 func attack(obj):
-	obj.get_damage(1)
+	obj.get_damage(1, self)
 	var d = obj.map_pos - map_pos
 	if abs(d.x) > 0:
 		scale.x = sign(d.x)

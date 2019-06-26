@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/hit_effect.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0.984314, 0.192157, 0.192157, 1, 1, 0, 0, 0.709804 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0.00789136, 0.8344 ), 0.0, 3.62115, 0, 0, Vector2( 0.988463, 0.4736 ), 0.206923, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.331583, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+trail_size_modifier = SubResource( 6 )
+emission_shape = 2
+emission_box_extents = Vector3( 5, 5, 1 )
+flag_disable_z = true
+spread = 43.77
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 47.95
+initial_velocity_random = 0.65
+angular_velocity = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 9.59
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+hue_variation = 0.04
+hue_variation_random = 0.58
+
+[node name="hit_effect" type="ColorRect"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 8.0
+margin_bottom = 8.0
+color = Color( 1, 1, 1, 0.627451 )
+script = ExtResource( 1 )
+
+[node name="blood_particles" type="Particles2D" parent="."]
+position = Vector2( 8, 8 )
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 7 )

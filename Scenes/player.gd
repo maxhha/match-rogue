@@ -156,7 +156,7 @@ func _on_update_power_values(values):
 
 func attack(obj):
 	if can_attack(obj):
-		obj.get_damage(1)
+		obj.get_damage(1, self)
 		var d = obj.map_pos - map_pos
 		if abs(d.x) > 0:
 			scale.x = sign(d.x)
@@ -169,5 +169,7 @@ func can_attack(obj):
 	return true
 
 # warning-ignore:unused_argument
-func get_damage(dmg):
+func get_damage(dmg, attacker):
+	$hit_effect.play(map_pos - attacker.map_pos)
+	get_parent().wait($hit_effect, "finished")
 	print("damaged")

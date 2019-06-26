@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/player.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/hit_effect.tscn" type="PackedScene" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -37,3 +38,5 @@ position = Vector2( 24, 88 )
 frames = SubResource( 1 )
 animation = "idle"
 script = ExtResource( 7 )
+
+[node name="hit_effect" parent="." instance=ExtResource( 8 )]
