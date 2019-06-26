@@ -11,7 +11,9 @@ func play(blood_dir : Vector2):
 	_timer = 0
 	self_modulate.a = 1
 	$blood_particles.emitting = true
-	$blood_particles.global_rotation = blood_dir.angle()
+	$blood_particles.rotation = 0
+	blood_dir = $blood_particles.global_transform.basis_xform(blood_dir)
+	$blood_particles.rotation = blood_dir.angle()
 	set_process(true)
 
 func _ready():
