@@ -3,6 +3,13 @@ extends Sprite
 const WIDTH = 7
 const HEIGHT = 5
 const CELL_SIZE = 16
+const GLOBAL_CELL_SIZE = 16*3
+
+func grid2local(p):
+	return (p + Vector2.ONE*1.5)*CELL_SIZE
+
+func local2grid(p):
+	return (p / CELL_SIZE).floor() - Vector2.ONE
 
 enum {NONE, WAIT}
 var STATE = NONE
@@ -12,6 +19,9 @@ onready var player = $player
 
 var units = []
 var current_unit = 0
+
+signal player_turn
+signal show_info(item)
 
 func _ready():
 	global.map = self
@@ -38,6 +48,8 @@ func _on_dead_obj(u):
 		current_unit -= 1
 	units.remove(i)
 
+
+
 var _wait_queue = []
 
 class Waiter:
@@ -50,6 +62,8 @@ class Waiter:
 func wait(obj, signal_name):
 	_wait_queue.append(Waiter.new(obj, signal_name))
 
+
+
 func move(obj, p):
 	p = p.floor()
 	if map.get(p, null) == null:
@@ -60,8 +74,6 @@ func move(obj, p):
 		wait(obj, "move_finished")
 	else:
 		push_error("Error move")
-
-signal player_turn;
 
 func next():
 	STATE = WAIT
@@ -95,12 +107,6 @@ func is_exit(p):
 	p = p.floor()
 	return p.x == WIDTH and p.y >= HEIGHT-2 and p.y < HEIGHT
 
-func grid2local(p):
-	return (p + Vector2.ONE*1.5)*CELL_SIZE
-
-func local2grid(p):
-	return (p / CELL_SIZE).floor() - Vector2.ONE
-
 func can_move_to(obj, p):
 	p = p.floor()
 	return (
@@ -120,8 +126,6 @@ func can_attack(obj, p):
 
 func get(p):
 	return map.get(p.floor())
-
-signal show_info(item)
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():

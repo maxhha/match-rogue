@@ -2,6 +2,8 @@ extends Node2D
 
 # warning-ignore:unused_class_variable
 var map
+# warning-ignore:unused_class_variable
+var main
 
 const TYPE2ICON = {
 	0: preload("res://Sprites/item0_icon.png"),

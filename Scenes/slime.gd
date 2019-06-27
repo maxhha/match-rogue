@@ -25,13 +25,10 @@ var map_pos = Vector2()
 
 var pwr_values = [0,1,0,0]
 
-var _start
-var _finish
 var _target
 var _timer
 
 signal move_finished
-signal attack_finished
 
 func move(p):
 	_target = p

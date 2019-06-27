@@ -9,14 +9,17 @@ var _values_queue = []
 
 var _current_values = []
 
-onready var map = $VBoxContainer/Control2/map_control/map
-onready var player = map.get_node("player")
+var level
+var player
 onready var matchControl = $VBoxContainer/Control/matchControl
+onready var levelContainer = $VBoxContainer/Control2/map_container
 
 signal push_value(type, value)
 signal update_values(values)
 
 func _ready():
+	global.main = self
+	
 	_values_coefs = [1, 0.5, 0.25, 0.12, 0.06]
 	_calculated_values = [0,0,0,0]
 	_current_values = [0,0,0,0]
@@ -32,23 +35,34 @@ func _ready():
 	
 	# Player input connect
 	matchControl.match_map.connect("swap", self, "_on_swap")
-	map.connect("player_turn", matchControl, "set_can_swap", [true])
-	player.connect("exited", self, "restart")
 	
 	# Values calculator connect
 	matchControl.connect("element_removed", self, "_on_element_removed")
 	matchControl.connect("update_finished", self, "_on_update_finished")
+	
+	matchControl.can_swap = false
+	levelContainer.load_level()
+	
+
+func connect_level(level):
+	self.level = level
+	self.player = level.player
+	level.connect("player_turn", matchControl, "set_can_swap", [true])
+	player.connect("exited", self, "restart")
 # warning-ignore:return_value_discarded
 	connect("update_values", player, "_on_update_power_values")
+	
 # warning-ignore:return_value_discarded
 	var health_bar = $VBoxContainer/Control3/health_bar
 	player.connect("health_changed", health_bar, "_on_health_change")
-	health_bar._on_health_change(player.health)
+	health_bar._on_health_change(level.player.health)
+	
+	matchControl.can_swap = true
 
 func _on_swap(p1,p2):
 	var dir = p2 - p1
 	matchControl.can_swap = false
-	player.input_swap(map, dir)
+	player.input_swap(level, dir)
 
 func restart():
 # warning-ignore:return_value_discarded
@@ -77,4 +91,4 @@ func _on_map_show_info(item):
 	for i in range(item.pwr_values.size()):
 		if item.pwr_values[i] > 0:
 			p.add_pwr_value(i, item.pwr_values[i])
-	p.popup(item.global_position+Vector2.DOWN*map.CELL_SIZE/2*map.scale)
+	p.popup(item.global_position+Vector2.DOWN*level.GLOBAL_CELL_SIZE/2)
