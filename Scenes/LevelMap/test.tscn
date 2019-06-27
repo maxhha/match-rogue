@@ -19,7 +19,7 @@
 [ext_resource path="res://Sprites/slime/slime_stand.png" type="Texture" id=17]
 
 [sub_resource type="TileSet" id=3]
-0/name = "wall_tileset0.png 0"
+0/name = "wall"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( -2, -2 )
 0/modulate = Color( 1, 1, 1, 1 )
@@ -35,6 +35,22 @@
 0/navigation_offset = Vector2( 0, 0 )
 0/shapes = [  ]
 0/z_index = 0
+1/name = "exit"
+1/texture = ExtResource( 4 )
+1/tex_offset = Vector2( -2, -2 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 20, 40, 40, 40 )
+1/tile_mode = 2
+1/autotile/icon_coordinate = Vector2( 0, 0 )
+1/autotile/tile_size = Vector2( 20, 20 )
+1/autotile/spacing = 0
+1/autotile/occluder_map = [  ]
+1/autotile/navpoly_map = [  ]
+1/autotile/z_index_map = [  ]
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shapes = [  ]
+1/z_index = 0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -90,7 +106,7 @@ scale = Vector2( 4, 4 )
 tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 3, 8, 0, 327683, 65536, 0, 65536, 65544, 0, 65541, 131072, 0, 131072, 131080, 0, 131077, 196608, 0, 196608, 196616, 0, 196613, 262144, 0, 131073, 262152, 0, 131074, 327680, 0, 196609, 327688, 0, 196610, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262147, 393220, 0, 262148, 393221, 0, 262145, 393222, 0, 262146, 393223, 0, 262147 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 3, 8, 0, 327683, 65536, 0, 65536, 65544, 0, 65541, 131072, 0, 131072, 131080, 0, 131077, 196608, 0, 196608, 196616, 0, 196613, 262144, 0, 131073, 262152, 1, 1, 327680, 0, 196609, 327683, 0, 131075, 327684, 0, 131076, 327688, 1, 65537, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262149, 393220, 0, 262149, 393221, 0, 262145, 393222, 0, 262146, 393223, 0, 262147 )
 
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
@@ -102,4 +118,4 @@ frames = SubResource( 1 )
 [node name="slime" parent="units" instance=ExtResource( 12 )]
 position = Vector2( 120, 88 )
 frames = SubResource( 2 )
-frame = 3
+frame = 0

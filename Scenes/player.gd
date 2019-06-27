@@ -75,16 +75,16 @@ func input_swap(map, dir : Vector2):
 #				new_pos = next
 	
 	
-	if not map.can_move_to(self, new_pos):
+	if not (map.is_free(new_pos) or map.is_exit(new_pos)):
 		new_pos = map_pos
 	
 	if y_velocity != 0:
 		new_pos.y += sign(y_velocity)
 		
-		if not map.can_move_to(self, new_pos):
+		if not (map.is_free(new_pos) or map.is_exit(new_pos)):
 			new_pos.x = map_pos.x
 			
-			if not map.can_move_to(self, new_pos):
+			if not (map.is_free(new_pos) or map.is_exit(new_pos)):
 				new_pos.y = map_pos.y
 	
 	var attack_pos = dir+map_pos
@@ -151,7 +151,7 @@ func input_swap(map, dir : Vector2):
 
 func is_on_floor():
 	var under = map_pos + Vector2.DOWN
-	return not global.map.is_in_room(under)
+	return global.map.is_wall(under)
 
 func _on_update_power_values(values):
 	pwr_values = values

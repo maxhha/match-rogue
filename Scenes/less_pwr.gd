@@ -1,6 +1,6 @@
 extends Control
 
-const TIME = 5
+const TIME = 3
 const MOVE_SPEED = 3*4
 const HEIGHT = 27
 

@@ -109,7 +109,7 @@ func _process(delta):
 
 func is_free(p):
 	p = p.floor()
-	return map.get(p) == null 
+	return map.get(p) == null and $walls.get_cellv(p+Vector2.ONE) == $walls.INVALID_CELL
 
 func is_in_room(p):
 	p = p.floor()
@@ -117,7 +117,11 @@ func is_in_room(p):
 
 func is_exit(p):
 	p = p.floor()
-	return p.x == WIDTH and p.y >= HEIGHT-2 and p.y < HEIGHT
+	return $walls.get_cellv(p+Vector2.ONE) == $walls.tile_set.find_tile_by_name("exit")
+
+func is_wall(p):
+	p = p.floor()
+	return $walls.get_cellv(p+Vector2.ONE) == $walls.tile_set.find_tile_by_name("wall")
 
 func can_move_to(obj, p):
 	p = p.floor()
