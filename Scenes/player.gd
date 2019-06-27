@@ -82,10 +82,13 @@ func input_swap(map, dir : Vector2):
 		new_pos.y += sign(y_velocity)
 		
 		if not (map.is_free(new_pos) or map.is_exit(new_pos)):
-			new_pos.x = map_pos.x
-			
-			if not (map.is_free(new_pos) or map.is_exit(new_pos)):
+			if map.is_wall(new_pos):
 				new_pos.y = map_pos.y
+			else:
+				new_pos.x = map_pos.x
+				
+				if not (map.is_free(new_pos) or map.is_exit(new_pos)):
+					new_pos.y = map_pos.y
 	
 	var attack_pos = dir+map_pos
 	if map.can_attack(self, attack_pos):
