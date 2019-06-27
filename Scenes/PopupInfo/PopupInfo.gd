@@ -1,12 +1,5 @@
 extends PanelContainer
 
-const TYPE2TEXTURE = {
-	0: preload("res://Sprites/item0_icon.png"),
-	1: preload("res://Sprites/item1_icon.png"),
-	2: preload("res://Sprites/item2_icon.png"),
-	3: preload("res://Sprites/item3_icon.png")
-}
-
 func set_name(s):
 	$body/name.text = s
 
@@ -17,7 +10,7 @@ func add_pwr_value(type, val):
 
 func add_prop(type, value):
 	var n = Prop.instance()
-	n.get_node("icon").texture = TYPE2TEXTURE[type]
+	n.get_node("icon").texture = global.TYPE2ICON[type]
 	n.get_node("lbl").text = str(value)
 	$body.add_child(n)
 	$body/offset.raise()
