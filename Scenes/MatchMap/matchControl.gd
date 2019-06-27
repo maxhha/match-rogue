@@ -1,6 +1,9 @@
 tool
 extends Control
 
+const HINT_TIMEOUT = 15
+var _hint_timer = 0
+
 var score = 0 setget set_score
 var count_swaps = 0 setget set_count_swaps
 var can_swap = true setget set_can_swap
@@ -38,9 +41,9 @@ func update_min_size():
 	rect_min_size = Vector2(XCOUNT, YCOUNT)*ITEM_SIZE
 	click_rect.size = Vector2(XCOUNT, YCOUNT)*ITEM_SIZE
 
-enum STATES{HINT, NONE, PRESSED, SWAP, UPDATE, WAIT}
+enum STATES{HINT, NONE, PRESSED, UPDATE, WAIT}
 
-var STATE = STATES.NONE
+var STATE = STATES.HINT
 
 var Slot = preload("slot.tscn")
 var Item = preload("item.tscn")
@@ -52,9 +55,9 @@ var click_rect = Rect2(Vector2(), Vector2(XCOUNT, YCOUNT)*ITEM_SIZE)
 var _create_items_y = []
 
 func _ready():
-	if Engine.is_editor_hint():
-		STATE = STATES.HINT
-	else:
+	if not Engine.is_editor_hint():
+		STATE = STATES.NONE
+
 		#setup match3 map
 		var M = preload("res://Scripts/MatchMap.gd")
 		randomize()
@@ -171,6 +174,7 @@ func _gui_input(event):
 					STATE = STATES.PRESSED
 					_start_p = p
 					get_tree().set_input_as_handled()
+					_hint_timer = 0
 		STATES.PRESSED:
 			if (event is InputEventMouseButton
 			and not event.is_pressed()
@@ -197,6 +201,15 @@ func _gui_input(event):
 # warning-ignore:unused_argument
 func _process(delta):
 	match STATE:
+		STATES.NONE:
+			_hint_timer += delta
+			if _hint_timer >= HINT_TIMEOUT:
+				if len(match_map.possible_swaps) > 0:
+					var i = randi() % match_map.possible_swaps.size()
+					var swap = match_map.possible_swaps[i]
+					var p = swap[randi() % 2]
+					items[p].hint()
+				_hint_timer = 0
 		STATES.UPDATE:
 			match_map.update()
 			if match_map.is_update_finished():

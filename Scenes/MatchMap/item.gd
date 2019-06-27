@@ -27,7 +27,15 @@ func destroy():
 	STATE = STATES.DESTROY
 	_timer = 0
 
+var hint_move = Vector2()
+
+func hint():
+	hint_move += Vector2(8, 0).rotated((randi() % 8) * TAU / 8)
+	position += hint_move
+
 func on_focus_enter():
+	position -= hint_move
+	hint_move = Vector2()
 	$bg_color.show()
 func on_focus_exit():
 	$bg_color.hide()
