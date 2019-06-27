@@ -18,3 +18,6 @@ func update_coefs(coefs):
 
 func _on_main_push_value(type, value):
 	get_node("count"+str(type)).push(value)
+
+func _on_main_update_value(type, value):
+	get_node("count"+str(type)).update_val(value)

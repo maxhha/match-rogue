@@ -17,3 +17,6 @@ func push(n):
 	queue.push_front(node)
 	for i in range(len(queue)):
 		queue[i].rect_position.x = i * SIZE
+
+func update_val(n):
+	get_child(get_child_count()-1).text = str(n) if n > 0 else ""

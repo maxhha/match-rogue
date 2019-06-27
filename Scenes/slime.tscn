@@ -23,10 +23,9 @@ animations = [ {
 
 [node name="slime" type="AnimatedSprite"]
 use_parent_material = true
-position = Vector2( 120, 88.125 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 2
+frame = 3
 playing = true
 script = ExtResource( 6 )
 
