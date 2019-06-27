@@ -180,17 +180,18 @@ func set_health(h):
 # warning-ignore:unused_argument
 func get_damage(dmg, attacker):
 	$hit_effect.play(map_pos - attacker.map_pos)
-	get_parent().wait($hit_effect, "finished")
+	global.map.wait($hit_effect, "finished")
 	self.health -= dmg
 
 var WeaknessPWR = preload("res://Scenes/less_pwr.tscn")
 
 func show_my_weakness(obj):
-	var y = obj.position.y - global.map.CELL_SIZE/4
+	var x = obj.global_position.x
+	var y = obj.global_position.y - global.map.GLOBAL_CELL_SIZE/4
 	for i in range(pwr_values.size()):
 		if int(pwr_values[i]) < int(obj.pwr_values[i]):
 			var n = WeaknessPWR.instance()
 			n.set_type(i)
-			get_parent().add_child(n)
-			n.set_position(Vector2(obj.position.x, y))
-			y -= n.rect_size.y
+			global.map.add_child(n)
+			n.set_pos(Vector2(x, y))
+			y -= n.HEIGHT

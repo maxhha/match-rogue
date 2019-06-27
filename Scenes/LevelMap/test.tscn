@@ -1,42 +1,59 @@
 [gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=1]
-[ext_resource path="res://Sprites/room1.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/map.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/player.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/map.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/bg_image0.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/wall_tileset0.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Sprites/slime/slime_idle_0.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/slime/slime_idle_1.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/slime/slime_idle_2.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/slime/slime_idle_3.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/slime/slime_stand.png" type="Texture" id=17]
-[ext_resource path="res://Scenes/slime.gd" type="Script" id=18]
+
+[sub_resource type="TileSet" id=3]
+0/name = "wall_tileset0.png 0"
+0/texture = ExtResource( 4 )
+0/tex_offset = Vector2( -2, -2 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 120, 120 )
+0/tile_mode = 2
+0/autotile/icon_coordinate = Vector2( 5, 5 )
+0/autotile/tile_size = Vector2( 20, 20 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "idle",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "jump_down",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 5 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "stand",
 "speed": 2.0
@@ -55,24 +72,34 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="map" type="Sprite"]
+[node name="map" type="Node2D"]
 material = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="bg" type="Sprite" parent="."]
+use_parent_material = true
 scale = Vector2( 4, 4 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 centered = false
-script = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 128, 96 )
 
-[node name="player" type="AnimatedSprite" parent="." instance=ExtResource( 4 )]
+[node name="walls" type="TileMap" parent="."]
 use_parent_material = true
-position = Vector2( 24, 88 )
+scale = Vector2( 4, 4 )
+tile_set = SubResource( 3 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 3, 8, 0, 327683, 65536, 0, 65536, 65544, 0, 65541, 131072, 0, 131072, 131080, 0, 131077, 196608, 0, 196608, 196616, 0, 196613, 262144, 0, 131073, 262152, 0, 131074, 327680, 0, 196609, 327688, 0, 196610, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262147, 393220, 0, 262148, 393221, 0, 262145, 393222, 0, 262146, 393223, 0, 262147 )
+
+[node name="units" type="Node2D" parent="."]
+use_parent_material = true
+scale = Vector2( 4, 4 )
+
+[node name="player" parent="units" instance=ExtResource( 5 )]
 frames = SubResource( 1 )
-animation = "idle"
-script = ExtResource( 11 )
 
-[node name="slime" type="AnimatedSprite" parent="." instance=ExtResource( 12 )]
-use_parent_material = true
-position = Vector2( 120.5, 87.875 )
+[node name="slime" parent="units" instance=ExtResource( 12 )]
+position = Vector2( 120, 88 )
 frames = SubResource( 2 )
-animation = "idle"
-playing = true
-script = ExtResource( 18 )
+frame = 3

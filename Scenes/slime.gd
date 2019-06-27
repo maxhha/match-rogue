@@ -73,7 +73,7 @@ func turn(map):
 func get_damage(dmg, attacker):
 	self.health -= dmg
 	$hit_effect.play(map_pos - attacker.map_pos)
-	get_parent().wait($hit_effect, "finished")
+	global.map.wait($hit_effect, "finished")
 	
 
 func attack(obj):

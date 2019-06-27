@@ -1,9 +1,19 @@
-extends Sprite
+tool
+extends Node2D
 
-const WIDTH = 7
-const HEIGHT = 5
 const CELL_SIZE = 16
-const GLOBAL_CELL_SIZE = 16*3
+const GLOBAL_CELL_SIZE = 16*4
+
+export (int) var WIDTH = 7 setget set_width
+export (int) var HEIGHT = 5 setget set_height
+
+func set_width(w):
+	WIDTH = w
+	$bg.region_rect.size.x = (w + 1) * CELL_SIZE
+
+func set_height(h):
+	HEIGHT = h
+	$bg.region_rect.size.y = (h + 1) * CELL_SIZE
 
 func grid2local(p):
 	return (p + Vector2.ONE*1.5)*CELL_SIZE
@@ -15,7 +25,7 @@ enum {NONE, WAIT}
 var STATE = NONE
 
 var map = {}
-onready var player = $player
+onready var player = $units/player
 
 var units = []
 var current_unit = 0
@@ -24,6 +34,8 @@ signal player_turn
 signal show_info(item)
 
 func _ready():
+	if Engine.editor_hint:
+		return
 	global.map = self
 	
 	player.position = grid2local(Vector2(-2, HEIGHT-1))
@@ -33,8 +45,8 @@ func _ready():
 	
 	units.append(player)
 	
-	for u in get_children():
-		if u != player:
+	for u in $units.get_children():
+		if not u.name in ["bg", "walls", "player"]:
 			units.append(u)
 			u.map_pos = local2grid(u.position)
 			u.position = grid2local(u.map_pos)
@@ -129,7 +141,7 @@ func get(p):
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
-		var p = get_local_mouse_position()
+		var p = $walls.get_local_mouse_position()
 		if get_used_rect().has_point(p):
 			var i = get(local2grid(p))
 			if i and i != player:

@@ -27,7 +27,7 @@ bg_color = Color( 0.184314, 0.168627, 0.2, 1 )
 size = 24
 font_data = ExtResource( 7 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 7 )
 
 [node name="main" type="Control"]
@@ -376,7 +376,7 @@ margin_right = 128.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.54902 )
 text = "100%"
 align = 1
@@ -388,7 +388,7 @@ margin_right = 192.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.54902 )
 text = "100%"
 align = 1
@@ -400,7 +400,7 @@ margin_right = 256.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.54902 )
 text = "100%"
 align = 1
@@ -412,7 +412,7 @@ margin_right = 320.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.54902 )
 text = "100%"
 align = 1
