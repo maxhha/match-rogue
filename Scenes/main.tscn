@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scenes/main.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/map_control.gd" type="Script" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://Scenes/ValuesCalculator/counts.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/MatchMap/matchControl.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/PopupInfo/PopupInfo.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Sprites/swap_arrow.png" type="Texture" id=20]
+[ext_resource path="res://Scenes/swap_arrow.gd" type="Script" id=21]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.184314, 0.168627, 0.2, 1 )
@@ -60,7 +62,6 @@ script = ExtResource( 2 )
 [node name="map" parent="VBoxContainer/Control2/map_container" instance=ExtResource( 3 )]
 
 [node name="Control3" type="Control" parent="VBoxContainer"]
-editor/display_folded = true
 margin_top = 461.0
 margin_right = 600.0
 margin_bottom = 613.0
@@ -219,11 +220,11 @@ text = "0"
 align = 1
 
 [node name="values" type="Panel" parent="VBoxContainer/Control3/accordion"]
-margin_right = 584.0
+margin_left = 248.0
+margin_right = 336.0
 margin_bottom = 152.0
 rect_min_size = Vector2( 88, 0 )
 rect_clip_content = true
-size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
 
 [node name="summary" type="VBoxContainer" parent="VBoxContainer/Control3/accordion/values"]
@@ -363,7 +364,7 @@ script = ExtResource( 15 )
 
 [node name="coefs" type="HBoxContainer" parent="VBoxContainer/Control3/accordion/values/table"]
 editor/display_folded = true
-margin_right = 488.0
+margin_right = 320.0
 margin_bottom = 24.0
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -421,7 +422,7 @@ valign = 1
 [node name="count0" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 1, 1, 0.333333, 1 )
 margin_top = 28.0
-margin_right = 488.0
+margin_right = 320.0
 margin_bottom = 52.0
 size_flags_vertical = 3
 script = ExtResource( 17 )
@@ -429,7 +430,7 @@ script = ExtResource( 17 )
 [node name="count1" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.980392, 0.160784, 0.160784, 1 )
 margin_top = 56.0
-margin_right = 488.0
+margin_right = 320.0
 margin_bottom = 80.0
 size_flags_vertical = 3
 script = ExtResource( 17 )
@@ -437,7 +438,7 @@ script = ExtResource( 17 )
 [node name="count2" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.152941, 0.537255, 0.8, 1 )
 margin_top = 84.0
-margin_right = 488.0
+margin_right = 320.0
 margin_bottom = 108.0
 size_flags_vertical = 3
 script = ExtResource( 17 )
@@ -445,7 +446,7 @@ script = ExtResource( 17 )
 [node name="count3" type="Control" parent="VBoxContainer/Control3/accordion/values/table"]
 modulate = Color( 0.329412, 1, 0.329412, 1 )
 margin_top = 112.0
-margin_right = 488.0
+margin_right = 320.0
 margin_bottom = 139.0
 size_flags_vertical = 3
 script = ExtResource( 17 )
@@ -469,6 +470,24 @@ margin_bottom = 164.5
 
 [node name="popup_info" parent="." instance=ExtResource( 19 )]
 visible = false
+
+[node name="swap_arrow1" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.435294 )
+material = ExtResource( 4 )
+scale = Vector2( 4, 4 )
+z_index = 1024
+texture = ExtResource( 20 )
+script = ExtResource( 21 )
+
+[node name="swap_arrow2" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.435294 )
+material = ExtResource( 4 )
+scale = Vector2( 4, 4 )
+z_index = 1024
+texture = ExtResource( 20 )
+script = ExtResource( 21 )
 [connection signal="push_value" from="." to="VBoxContainer/Control3/accordion/values/table" method="_on_main_push_value"]
 [connection signal="update_values" from="." to="VBoxContainer/Control3/accordion/values/summary" method="_on_main_update_values"]
 [connection signal="show_info" from="VBoxContainer/Control2/map_container/map" to="." method="_on_map_show_info"]

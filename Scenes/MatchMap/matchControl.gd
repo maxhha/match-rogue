@@ -180,8 +180,18 @@ func _gui_input(event):
 				_finish_p = local2grid(_finish_p)
 				items[_start_p].on_focus_exit()
 				STATE = STATES.NONE
-				if _start_p.distance_squared_to(_finish_p) == 1:
-					match_map.swap(_start_p,_finish_p)
+				var dir = _finish_p - _start_p
+				
+				if dir.length() != 0:
+					
+					if abs(dir.x) >= abs(dir.y):
+						dir.y = 0
+						dir.x = sign(dir.x)
+					else:
+						dir.x = 0
+						dir.y = sign(dir.y)
+						
+					match_map.swap(_start_p,_start_p+dir)
 				get_tree().set_input_as_handled()
 
 # warning-ignore:unused_argument

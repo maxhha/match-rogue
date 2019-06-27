@@ -118,4 +118,4 @@ frames = SubResource( 1 )
 [node name="slime" parent="units" instance=ExtResource( 12 )]
 position = Vector2( 120, 88 )
 frames = SubResource( 2 )
-frame = 3
+frame = 1

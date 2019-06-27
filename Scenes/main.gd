@@ -61,6 +61,17 @@ func connect_level(level):
 
 func _on_swap(p1,p2):
 	var dir = p2 - p1
+
+	
+	$swap_arrow1.global_position = (
+		matchControl.grid2local(p1)
+		+ matchControl.rect_global_position
+		+ Vector2.ONE*matchControl.ITEM_SIZE / 2)
+	$swap_arrow2.global_position = player.global_position
+	
+	$swap_arrow1.play(dir)
+	$swap_arrow2.play(dir)
+	
 	matchControl.can_swap = false
 	player.input_swap(level, dir)
 
