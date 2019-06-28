@@ -91,6 +91,7 @@ animations = [ {
 [node name="map" type="Node2D"]
 material = ExtResource( 1 )
 script = ExtResource( 2 )
+WIDTH = 6
 
 [node name="bg" type="Sprite" parent="."]
 use_parent_material = true
@@ -98,7 +99,7 @@ scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 128, 96 )
+region_rect = Rect2( 0, 0, 112, 96 )
 
 [node name="walls" type="TileMap" parent="."]
 use_parent_material = true
@@ -106,7 +107,7 @@ scale = Vector2( 4, 4 )
 tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 3, 8, 0, 327683, 65536, 0, 65536, 65544, 0, 65541, 131072, 0, 131072, 131080, 0, 131077, 196608, 0, 196608, 196615, 0, 65539, 196616, 0, 327683, 262144, 0, 131073, 262150, 0, 327685, 262152, 0, 65541, 327680, 0, 196609, 327683, 0, 131075, 327684, 0, 131076, 327688, 1, 1, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262149, 393220, 0, 262149, 393221, 0, 262145, 393222, 0, 262146, 393223, 0, 262147 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 5, 65536, 0, 65536, 65543, 0, 131077, 131072, 0, 131072, 131079, 0, 65541, 196608, 0, 196608, 196615, 0, 196613, 262144, 0, 131073, 262150, 0, 65539, 262151, 0, 5, 327680, 0, 196609, 327683, 0, 131075, 327684, 0, 131076, 327687, 1, 1, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262149, 393220, 0, 262149, 393221, 0, 262145, 393222, 0, 262146 )
 
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
@@ -116,6 +117,6 @@ scale = Vector2( 4, 4 )
 frames = SubResource( 1 )
 
 [node name="slime" parent="units" instance=ExtResource( 12 )]
-position = Vector2( 120, 88 )
+position = Vector2( 104.5, 55.75 )
 frames = SubResource( 2 )
-frame = 1
+frame = 0

@@ -9,11 +9,13 @@ export (int) var HEIGHT = 5 setget set_height
 
 func set_width(w):
 	WIDTH = w
-	$bg.region_rect.size.x = (w + 1) * CELL_SIZE
+	if find_node("bg"):
+		$bg.region_rect.size.x = (w + 1) * CELL_SIZE
 
 func set_height(h):
 	HEIGHT = h
-	$bg.region_rect.size.y = (h + 1) * CELL_SIZE
+	if find_node("bg"):
+		$bg.region_rect.size.y = (h + 1) * CELL_SIZE
 
 func grid2local(p):
 	return (p + Vector2.ONE*1.5)*CELL_SIZE
