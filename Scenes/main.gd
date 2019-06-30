@@ -55,9 +55,13 @@ func connect_level(level):
 # warning-ignore:return_value_discarded
 	var health_bar = $VBoxContainer/Control3/health_bar
 	player.connect("health_changed", health_bar, "_on_health_change")
+	player.connect("dead", self, "_on_player_dead")
 	health_bar._on_health_change(level.player.health)
 	
 	matchControl.can_swap = true
+
+func _on_player_dead():
+	get_tree().create_timer(1).connect("timeout", levelContainer, "reset_level")
 
 func _on_swap(p1,p2):
 	var dir = p2 - p1
@@ -76,8 +80,9 @@ func _on_swap(p1,p2):
 	player.input_swap(level, dir)
 
 func restart():
-# warning-ignore:return_value_discarded
-	get_tree().reload_current_scene()
+
+	matchControl.can_swap = false
+	levelContainer.load_level()
 
 func _on_element_removed(type):
 	_current_values[type] += 1

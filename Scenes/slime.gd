@@ -51,24 +51,99 @@ func _process(delta):
 				_timer -= delta
 				self_modulate.a = _timer/DEAD_TIME
 
+var _last_turn = Vector2(sign(scale.x), 0)
+
 func turn(map):
-	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)]
+	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)] 
 	var possible_attacks = []
 	for i in range(len(possible_moves)-1, -1, -1):
 		var target_pos = map_pos + possible_moves[i]
-		if not (map.is_in_room(target_pos) and map.is_free(target_pos)):
+		if not (map.is_in_room(target_pos) and map.is_free(target_pos) and map.is_wall(target_pos+Vector2.DOWN)):
 			possible_moves.remove(i)
 		if map.get(target_pos) == map.player:
-			possible_attacks.append(target_pos)
+			possible_attacks.append(target_pos - map_pos)
+	
+	if not is_on_floor():
+		possible_moves = []
+		_last_turn = Vector2.DOWN
+	
 	if len(possible_attacks) > 0:
-		attack(map.get(possible_attacks[0]))
-		map.next()
+		_last_turn = possible_attacks[0]
+		input_swap(map, possible_attacks[0])
 	elif len(possible_moves) == 0:
-		map.next()
+		input_swap(map, _last_turn)
 	else:
-		var i = randi() % len(possible_moves)
-		map.move(self, possible_moves[i] + map_pos)
-		map.next()
+		if _last_turn in possible_moves:
+			input_swap(map, _last_turn)
+		else:
+			var i = randi() % len(possible_moves)
+			_last_turn = possible_moves[i]
+			input_swap(map, possible_moves[i])
+		
+
+func is_on_floor():
+	var under = map_pos + Vector2.DOWN
+	return global.map.is_wall(under)
+	
+var y_velocity = 0
+const JUMP_SPEED = 0.5
+
+func input_swap(map, dir : Vector2):
+	dir = dir.floor()
+	var new_pos = map_pos
+	
+	#update gravity
+	if not is_on_floor():
+		y_velocity += 1
+	else:
+		y_velocity = 0
+	
+	#first make input action
+	match dir:
+		Vector2.LEFT, Vector2.RIGHT:
+			new_pos += dir
+		Vector2.UP:
+			if is_on_floor():
+				y_velocity = -JUMP_SPEED
+		Vector2.DOWN:
+			if not is_on_floor():
+				if y_velocity < 1:
+					y_velocity = 1
+				
+				# move to bottom
+#				var next = new_pos 
+#				while map.is_free(Vector2.DOWN+next) and  map.is_in_room(Vector2.DOWN+next):
+#					next.y += 1
+#				y_velocity = 0
+#				new_pos = next
+	
+	
+	if not (map.is_free(new_pos)):
+		new_pos = map_pos
+	
+	if y_velocity != 0:
+		new_pos.y += sign(y_velocity)
+		
+		if not (map.is_free(new_pos)):
+			if map.is_wall(new_pos):
+				new_pos.y = map_pos.y
+			else:
+				new_pos.x = map_pos.x
+				
+				if not (map.is_free(new_pos)):
+					new_pos.y = map_pos.y
+	
+	var attack_pos = dir+map_pos
+	if map.can_attack(self, attack_pos):
+		attack(map.get(attack_pos))
+	elif map.get(attack_pos):
+		pass
+#		show_my_weakness(map.get(attack_pos))
+	
+	if new_pos != map_pos:
+		map.move(self, new_pos)
+	
+	map.next()
 
 func get_damage(dmg, attacker):
 	self.health -= dmg
@@ -81,4 +156,9 @@ func attack(obj):
 	var d = obj.map_pos - map_pos
 	if abs(d.x) > 0:
 		scale.x = sign(d.x)
-		
+
+func can_attack(obj):
+	if obj.is_in_group("slime"):
+		return false
+	else:
+		return true

@@ -1,8 +1,9 @@
 extends AnimatedSprite
 
 const MOVE_SPEED = 40
+const DEAD_TIME = 0.3
 
-enum {NONE, MOVE}
+enum {NONE, MOVE, DEAD}
 var STATE = NONE
 
 # warning-ignore:unused_class_variable
@@ -11,10 +12,13 @@ var map_pos = Vector2()
 var pwr_values = [0,0,0,0]
 
 var _target
+var _timer
 
 signal move_finished
+signal dead
 # warning-ignore:unused_signal
 signal exited
+
 
 func move(p):
 	_target = p
@@ -42,6 +46,10 @@ func _process(delta):
 				play("idle")
 			else:
 				play("jump_"+("down" if y_velocity > -1 else "up"))
+		DEAD:
+			if _timer > 0:
+				_timer -= delta
+				self_modulate.a = _timer/DEAD_TIME
 const JUMP_SPEED = 1
 var y_velocity = 0
 
@@ -173,12 +181,17 @@ func can_attack(obj):
 			return false
 	return true
 
-var health = 3 setget set_health
+var health = 1 setget set_health
 signal health_changed(new_val)
 
 func set_health(h):
 	health = h
 	emit_signal("health_changed", h)
+	if health <= 0:
+		emit_signal("dead")
+		STATE = DEAD
+		_timer = DEAD_TIME
+		$hit_effect.connect("finished", self, "queue_free")
 
 # warning-ignore:unused_argument
 func get_damage(dmg, attacker):

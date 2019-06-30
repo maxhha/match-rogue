@@ -21,12 +21,13 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="slime" type="AnimatedSprite"]
+[node name="slime" type="AnimatedSprite" groups=[
+"slime",
+]]
 use_parent_material = true
 position = Vector2( 120, 88.125 )
 frames = SubResource( 1 )
 animation = "idle"
-frame = 2
 playing = true
 script = ExtResource( 6 )
 

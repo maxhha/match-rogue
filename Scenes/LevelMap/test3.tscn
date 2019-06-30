@@ -18,7 +18,7 @@
 [ext_resource path="res://Sprites/slime/slime_idle_3.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/slime/slime_stand.png" type="Texture" id=17]
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=1]
 0/name = "wall"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( -2, -2 )
@@ -52,7 +52,7 @@
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
@@ -75,7 +75,7 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ) ],
 "loop": true,
@@ -91,7 +91,8 @@ animations = [ {
 [node name="map" type="Node2D"]
 material = ExtResource( 1 )
 script = ExtResource( 2 )
-WIDTH = 6
+WIDTH = 5
+HEIGHT = 3
 
 [node name="bg" type="Sprite" parent="."]
 use_parent_material = true
@@ -99,24 +100,24 @@ scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 112, 96 )
+region_rect = Rect2( 0, 0, 96, 64 )
 
 [node name="walls" type="TileMap" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
-tile_set = SubResource( 3 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 1, 6, 0, 2, 7, 0, 5, 65536, 0, 65536, 65543, 0, 131077, 131072, 0, 131072, 131079, 0, 65541, 196608, 0, 196608, 196615, 0, 196613, 262144, 0, 131073, 262150, 0, 65539, 262151, 0, 5, 327680, 0, 196609, 327683, 0, 131075, 327684, 0, 131076, 327687, 1, 1, 393217, 0, 262145, 393218, 0, 262146, 393219, 0, 262149, 393220, 0, 262149, 393221, 0, 262145, 393222, 0, 262146 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 1, 2, 0, 2, 3, 0, 327682, 4, 0, 4, 5, 0, 327683, 65536, 0, 65536, 65539, 0, 65538, 65541, 0, 196611, 65542, 0, 327683, 131072, 0, 131073, 131078, 1, 1, 196608, 0, 196609, 196611, 0, 131075, 196612, 0, 262146, 196613, 0, 262148, 262145, 0, 262148, 262146, 0, 262147 )
 
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
 [node name="player" parent="units" instance=ExtResource( 5 )]
-frames = SubResource( 1 )
+position = Vector2( 23.25, 55.75 )
+frames = SubResource( 2 )
 
 [node name="slime" parent="units" instance=ExtResource( 12 )]
-position = Vector2( 104.5, 55.75 )
-frames = SubResource( 2 )
-frame = 0
+position = Vector2( 72, 40.25 )
+frames = SubResource( 3 )

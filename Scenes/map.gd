@@ -40,12 +40,14 @@ func _ready():
 		return
 	global.map = self
 	
-	player.position = grid2local(Vector2(-2, HEIGHT-1))
-	player.map_pos = Vector2(0, HEIGHT-1)
-	player.move(grid2local(Vector2(0, HEIGHT-1)))
-	map[Vector2(0, HEIGHT-1)] = player
+	player.map_pos = local2grid(player.position)
+	player.position = grid2local(player.map_pos - Vector2(2,0))
+
+	player.move(grid2local(player.map_pos))
+	map[player.map_pos] = player
 	
 	units.append(player)
+	player.connect("dead", self, "_on_dead_obj", [player])
 	
 	for u in $units.get_children():
 		if not u.name in ["bg", "walls", "player"]:
@@ -139,7 +141,7 @@ func can_attack(obj, p):
 	return (
 		map.get(p, null) != null 
 		and obj.map_pos != p
-		and obj.can_attack(map[p])
+		and (obj.can_attack(map[p]))
 	)
 
 func get(p):
