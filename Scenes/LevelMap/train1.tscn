@@ -1,16 +1,17 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/map.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/bg_image0.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/wall_tileset0.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/spikes_small.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=12]
 
 [sub_resource type="TileSet" id=1]
 0/name = "wall"
@@ -48,22 +49,22 @@
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "idle",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "jump_down",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 6 ) ],
+"frames": [ ExtResource( 7 ) ],
 "loop": true,
 "name": "stand",
 "speed": 2.0
@@ -91,10 +92,17 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 0, 0, 327681, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 5, 65536, 0, 196608, 65540, 0, 65541, 131072, 0, 131072, 131076, 0, 196613, 196608, 0, 131073, 196612, 1, 1, 262145, 0, 262147, 262146, 0, 262146, 262147, 0, 262145 )
 
+[node name="items" type="Node2D" parent="."]
+use_parent_material = true
+scale = Vector2( 4, 4 )
+
+[node name="spikes_small" parent="items" instance=ExtResource( 5 )]
+position = Vector2( 39, 55.5 )
+
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
-[node name="player" parent="units" instance=ExtResource( 5 )]
+[node name="player" parent="units" instance=ExtResource( 6 )]
 position = Vector2( 23.25, 55.75 )
 frames = SubResource( 2 )

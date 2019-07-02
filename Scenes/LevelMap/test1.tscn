@@ -110,7 +110,12 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 1, 0, 0, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 65537, 0, 196608, 65541, 0, 65541, 131072, 0, 327681, 131073, 0, 3, 131074, 0, 65537, 131077, 1, 1, 196608, 0, 131073, 196612, 0, 131075, 262145, 0, 262146, 262146, 0, 262145, 262147, 0, 262148 )
 
+[node name="items" type="Node2D" parent="."]
+use_parent_material = true
+scale = Vector2( 4, 4 )
+
 [node name="units" type="Node2D" parent="."]
+editor/display_folded = true
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
@@ -121,4 +126,4 @@ frames = SubResource( 2 )
 [node name="slime" parent="units" instance=ExtResource( 12 )]
 position = Vector2( 40.5, 21.25 )
 frames = SubResource( 3 )
-frame = 1
+frame = 2

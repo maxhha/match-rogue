@@ -62,6 +62,7 @@ script = ExtResource( 2 )
 [node name="map" parent="VBoxContainer/Control2/map_container" instance=ExtResource( 3 )]
 
 [node name="Control3" type="Control" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 461.0
 margin_right = 600.0
 margin_bottom = 613.0
@@ -452,6 +453,7 @@ size_flags_vertical = 3
 script = ExtResource( 17 )
 
 [node name="Control" type="Control" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 617.0
 margin_right = 600.0
 margin_bottom = 1024.0

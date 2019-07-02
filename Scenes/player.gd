@@ -195,7 +195,7 @@ func set_health(h):
 
 # warning-ignore:unused_argument
 func get_damage(dmg, attacker):
-	$hit_effect.play(map_pos - attacker.map_pos)
+	$hit_effect.play(global_position - attacker.global_position)
 	global.map.wait($hit_effect, "finished")
 	self.health -= dmg
 

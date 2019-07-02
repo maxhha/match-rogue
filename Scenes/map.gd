@@ -27,6 +27,7 @@ enum {NONE, WAIT}
 var STATE = NONE
 
 var map = {}
+var item_map = {}
 onready var player = $units/player
 
 var units = []
@@ -50,12 +51,17 @@ func _ready():
 	player.connect("dead", self, "_on_dead_obj", [player])
 	
 	for u in $units.get_children():
-		if not u.name in ["bg", "walls", "player"]:
+		if not u.name in ["player"]:
 			units.append(u)
 			u.map_pos = local2grid(u.position)
 			u.position = grid2local(u.map_pos)
 			map[u.map_pos] = u
 			u.connect("dead", self, "_on_dead_obj", [u])
+	if find_node("items", false):
+		for i in $items.get_children():
+			i.map_pos = local2grid(i.position)
+			i.position = grid2local(i.map_pos)
+			item_map[i.map_pos] = i
 
 func _on_dead_obj(u):
 	map[u.map_pos] = null
@@ -85,6 +91,8 @@ func move(obj, p):
 	if map.get(p, null) == null:
 		map[p] = obj
 		map[obj.map_pos] = null
+		if item_map.get(p):
+			item_map[p].enter(obj)
 		obj.map_pos = p
 		obj.move(grid2local(p))
 		wait(obj, "move_finished")
