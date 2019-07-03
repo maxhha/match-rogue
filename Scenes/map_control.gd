@@ -1,7 +1,9 @@
 extends Control
 
 var levels = [
-	
+	"train1.tscn",
+	"train1.tscn",
+	"train1.tscn",
 	"train1.tscn",
 	"train2.tscn",
 	"train3.tscn",

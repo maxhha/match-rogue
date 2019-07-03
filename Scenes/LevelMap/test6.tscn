@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/map.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/bg_image0.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/wall_tileset0.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/spikes_dynamic.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/spikes_static.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=8]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=13]
+
 
 [sub_resource type="TileSet" id=1]
 0/name = "wall"
@@ -97,14 +98,11 @@ tile_data = PoolIntArray( 0, 0, 327681, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
-[node name="spikes_dynamic" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 39.75, 55.5 )
+[node name="spikes_small" parent="items" instance=ExtResource( 5 )]
+position = Vector2( 39, 55.5 )
 
-[node name="spikes_dynamic2" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 55.5, 55.25 )
-
-[node name="spikes_dynamic3" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 72, 56 )
+[node name="spikes_small2" parent="items" instance=ExtResource( 5 )]
+position = Vector2( 71.75, 56.25 )
 
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
@@ -116,4 +114,4 @@ frames = SubResource( 2 )
 
 [node name="slime" parent="units" instance=ExtResource( 13 )]
 position = Vector2( 87.25, 55.5 )
-frame = 3
+frame = 2

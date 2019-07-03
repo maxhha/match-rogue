@@ -39,6 +39,7 @@ signal show_info(item)
 func _ready():
 	if Engine.editor_hint:
 		return
+	
 	global.map = self
 	
 	player.map_pos = local2grid(player.position)
@@ -62,6 +63,8 @@ func _ready():
 			i.map_pos = local2grid(i.position)
 			i.position = grid2local(i.map_pos)
 			item_map[i.map_pos] = i
+			if i.is_in_group('dynamic_item'):
+				units.append(i)
 
 func _on_dead_obj(u):
 	map[u.map_pos] = null
