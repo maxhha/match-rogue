@@ -1,16 +1,8 @@
-extends AnimatedSprite
+extends "res://Scenes/Unit.gd"
 
-const MOVE_SPEED = 40
 const MELEE_ATTACK_TIME = 0.5
-const DEAD_TIME = 0.3
-
-enum {NONE, MOVE, DEAD}
-var STATE = NONE
 
 var health = 1 setget set_health
-var _name = "Slime"
-
-signal dead
 
 func set_health(h):
 	health = h
@@ -18,21 +10,15 @@ func set_health(h):
 		emit_signal("dead")
 		STATE = DEAD
 		_timer = DEAD_TIME
+# warning-ignore:return_value_discarded
 		$hit_effect.connect("finished", self, "queue_free")
 
+
 # warning-ignore:unused_class_variable
-var map_pos = Vector2()
+var _name = "Slime"
 
+# warning-ignore:unused_class_variable
 var pwr_values = [0,1,0,0]
-
-var _target
-var _timer
-
-signal move_finished
-
-func move(p):
-	_target = p
-	STATE = MOVE
 
 func _process(delta):
 	match STATE:
@@ -47,9 +33,7 @@ func _process(delta):
 				if abs(d.x) > 0:
 					scale.x = sign(d.x)
 		DEAD:
-			if _timer > 0:
-				_timer -= delta
-				self_modulate.a = _timer/DEAD_TIME
+			dead_fade_out(delta)
 
 var _last_turn = Vector2(sign(scale.x), 0)
 
@@ -79,11 +63,6 @@ func turn(map):
 			var i = randi() % len(possible_moves)
 			_last_turn = possible_moves[i]
 			input_swap(map, possible_moves[i])
-		
-
-func is_on_floor():
-	var under = map_pos + Vector2.DOWN
-	return global.map.is_wall(under)
 	
 var y_velocity = 0
 const JUMP_SPEED = 0.5

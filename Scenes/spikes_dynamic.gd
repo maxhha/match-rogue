@@ -4,6 +4,9 @@ var hidden = true
 var activated = false
 var map_pos
 
+# warning-ignore:unused_signal
+signal dead
+
 func enter(u):
 	if not u.is_in_group("slime"):
 		if not hidden:

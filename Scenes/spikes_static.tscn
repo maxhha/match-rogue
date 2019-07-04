@@ -3,7 +3,9 @@
 [ext_resource path="res://Sprites/spikes.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/spikes_static.gd" type="Script" id=2]
 
-[node name="spikes_static" type="Sprite"]
+[node name="spikes_static" type="Sprite" groups=[
+"enter_handler",
+]]
 use_parent_material = true
 texture = ExtResource( 1 )
 offset = Vector2( 0, 1 )

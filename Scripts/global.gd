@@ -11,3 +11,22 @@ const TYPE2ICON = {
 	2: preload("res://Sprites/item2_icon.png"),
 	3: preload("res://Sprites/item3_icon.png")
 }
+
+func clever_rotate(obj, dir):
+	match dir:
+		Vector2.RIGHT:
+			obj.flip_h = false
+			obj.flip_v = false
+			obj.rotation = 0
+		Vector2.LEFT:
+			obj.flip_h = true
+			obj.flip_v = false
+			obj.rotation = 0
+		Vector2.UP:
+			obj.flip_h = true
+			obj.flip_v = false
+			obj.rotation = PI/2
+		Vector2.DOWN:
+			obj.flip_h = false
+			obj.flip_v = false
+			obj.rotation = PI/2

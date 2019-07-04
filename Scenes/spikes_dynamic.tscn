@@ -25,6 +25,7 @@ animations = [ {
 } ]
 
 [node name="spikes_dynamic" type="AnimatedSprite" groups=[
+"enter_handler",
 "dynamic_item",
 ]]
 use_parent_material = true

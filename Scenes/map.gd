@@ -60,20 +60,37 @@ func _ready():
 			u.connect("dead", self, "_on_dead_obj", [u])
 	if find_node("items", false):
 		for i in $items.get_children():
-			i.map_pos = local2grid(i.position)
-			i.position = grid2local(i.map_pos)
-			item_map[i.map_pos] = i
-			if i.is_in_group('dynamic_item'):
-				units.append(i)
+			add_item(i, false)
 
 func _on_dead_obj(u):
 	map[u.map_pos] = null
+	remove_from_units(u)
+
+func add_item(i, grid_pos=null):
+	if typeof(grid_pos) == TYPE_VECTOR2:
+		$items.add_child(i)
+		i.map_pos = grid_pos.floor()
+	else:
+		i.map_pos = local2grid(i.position)
+	i.position = grid2local(i.map_pos)
+	if i.is_in_group('enter_handler'):
+		item_map[i.map_pos] = i
+	if i.is_in_group('dynamic_item'):
+		units.append(i)
+		i.connect("dead", self, "_on_item_dead", [i], CONNECT_ONESHOT)
+
+func _on_item_dead(it):
+	if it.is_in_group('enter_handler'):
+		item_map[it.map_pos] = null
+	if it.is_in_group('dynamic_item'):
+		remove_from_units(it)
+
+func remove_from_units(u):
 	var i = units.find(u)
-	if i < current_unit:
+	if i <= current_unit:
 		current_unit -= 1
 	units.remove(i)
-
-
+	current_unit = (current_unit + len(units)) % len(units)
 
 var _wait_queue = []
 
@@ -94,7 +111,7 @@ func move(obj, p):
 	if map.get(p, null) == null:
 		map[p] = obj
 		map[obj.map_pos] = null
-		if item_map.get(p):
+		if item_map.get(p) and item_map.get(p).is_in_group('enter_handler'):
 			item_map[p].enter(obj)
 		obj.map_pos = p
 		obj.move(grid2local(p))

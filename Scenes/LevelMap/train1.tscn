@@ -5,14 +5,14 @@
 [ext_resource path="res://Sprites/bg_image0.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/wall_tileset0.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/spikes_dynamic.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/turrel_small.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=13]
 
 [sub_resource type="TileSet" id=1]
 0/name = "wall"
@@ -50,22 +50,22 @@
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "idle",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "jump_down",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 8 ) ],
 "loop": true,
 "name": "stand",
 "speed": 2.0
@@ -106,14 +106,16 @@ position = Vector2( 55.5, 55.25 )
 [node name="spikes_dynamic3" parent="items" instance=ExtResource( 5 )]
 position = Vector2( 72, 56 )
 
+[node name="turrel_small" parent="items" instance=ExtResource( 6 )]
+position = Vector2( 6.75, 40.25 )
+
+[node name="turrel_small2" parent="items" instance=ExtResource( 6 )]
+position = Vector2( 7.75, 24.25 )
+
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
-[node name="player" parent="units" instance=ExtResource( 6 )]
+[node name="player" parent="units" instance=ExtResource( 7 )]
 position = Vector2( 23.25, 55.75 )
 frames = SubResource( 2 )
-
-[node name="slime" parent="units" instance=ExtResource( 13 )]
-position = Vector2( 87.25, 55.5 )
-frame = 3

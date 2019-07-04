@@ -1,28 +1,23 @@
-extends AnimatedSprite
-
-const MOVE_SPEED = 40
-const DEAD_TIME = 0.3
-
-enum {NONE, MOVE, DEAD}
-var STATE = NONE
-
-# warning-ignore:unused_class_variable
-var map_pos = Vector2()
+extends "res://Scenes/Unit.gd"
 
 var pwr_values = [0,0,0,0]
 
-var _target
-var _timer
+signal health_changed(new_val)
+var health = 1 setget set_health
 
-signal move_finished
-signal dead
+func set_health(h):
+	health = h
+	emit_signal("health_changed", h)
+	if health <= 0:
+		emit_signal("dead")
+		STATE = DEAD
+		_timer = DEAD_TIME
+# warning-ignore:return_value_discarded
+		$hit_effect.connect("finished", self, "queue_free")
+
+
 # warning-ignore:unused_signal
 signal exited
-
-
-func move(p):
-	_target = p
-	STATE = MOVE
 
 func _process(delta):
 	match STATE:
@@ -47,9 +42,8 @@ func _process(delta):
 			else:
 				play("jump_"+("down" if y_velocity > -1 else "up"))
 		DEAD:
-			if _timer > 0:
-				_timer -= delta
-				self_modulate.a = _timer/DEAD_TIME
+			dead_fade_out(delta)
+
 const JUMP_SPEED = 1
 var y_velocity = 0
 
@@ -160,10 +154,6 @@ func input_swap(map, dir : Vector2):
 #	map.next()
 	
 
-func is_on_floor():
-	var under = map_pos + Vector2.DOWN
-	return global.map.is_wall(under)
-
 func _on_update_power_values(values):
 	pwr_values = values
 
@@ -180,18 +170,6 @@ func can_attack(obj):
 		if int(pwr_values[i]) < int(obj.pwr_values[i]):
 			return false
 	return true
-
-var health = 1 setget set_health
-signal health_changed(new_val)
-
-func set_health(h):
-	health = h
-	emit_signal("health_changed", h)
-	if health <= 0:
-		emit_signal("dead")
-		STATE = DEAD
-		_timer = DEAD_TIME
-		$hit_effect.connect("finished", self, "queue_free")
 
 # warning-ignore:unused_argument
 func get_damage(dmg, attacker):

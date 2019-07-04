@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/floor.png-bad02a3061f4734a68e01c2ddec9b22e.stex"
+path="res://.import/turrel_small3.png-1deff847387a8b3c687bf7d0dbdc2839.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/floor.png"
-dest_files=[ "res://.import/floor.png-bad02a3061f4734a68e01c2ddec9b22e.stex" ]
+source_file="res://Sprites/turrel_small/turrel_small3.png"
+dest_files=[ "res://.import/turrel_small3.png-1deff847387a8b3c687bf7d0dbdc2839.stex" ]
 
 [params]
 
