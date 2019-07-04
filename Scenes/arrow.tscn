@@ -36,11 +36,10 @@ animations = [ {
 } ]
 
 [node name="arrow" type="AnimatedSprite" groups=[
-"dynamic_item",
+"bullet",
 ]]
 use_parent_material = true
 frames = SubResource( 1 )
 animation = "idle"
-frame = 1
 playing = true
 script = ExtResource( 16 )

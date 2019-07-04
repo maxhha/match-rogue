@@ -469,6 +469,8 @@ margin_left = -176.0
 margin_top = -195.5
 margin_right = 184.0
 margin_bottom = 164.5
+XCOUNT = 5
+YCOUNT = 5
 
 [node name="popup_info" parent="." instance=ExtResource( 19 )]
 visible = false

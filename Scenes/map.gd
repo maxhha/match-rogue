@@ -32,13 +32,36 @@ onready var player = $units/player
 
 var units = []
 var current_unit = 0
+var bullets = []
 
 signal player_turn
 signal show_info(item)
 
+class GroupTurn:
+	var list = [] 
+	func _init():
+		pass
+	func turn(map : Node2D):
+		for i in list:
+			i.turn(map)
+		map.next()
+	func append(i):
+		list.append(i)
+		i.connect( 'dead', self,
+			"_on_dead", [i],
+			CONNECT_ONESHOT | CONNECT_DEFERRED
+			#it must be deffered because
+			#in turn call breaks indexing
+		)
+	func _on_dead(obj):
+		list.erase(obj)
+
 func _ready():
 	if Engine.editor_hint:
 		return
+	
+	bullets = GroupTurn.new()
+	units.append(bullets) 
 	
 	global.map = self
 	
@@ -78,6 +101,8 @@ func add_item(i, grid_pos=null):
 	if i.is_in_group('dynamic_item'):
 		units.append(i)
 		i.connect("dead", self, "_on_item_dead", [i], CONNECT_ONESHOT)
+	if i.is_in_group("bullet"):
+		bullets.append(i)
 
 func _on_item_dead(it):
 	if it.is_in_group('enter_handler'):
@@ -133,7 +158,8 @@ func _process(delta):
 				STATE = NONE
 				if len(units) == 0:
 					return
-				current_unit = (current_unit + 1) % len(units)
+				current_unit = (current_unit+1) % len(units)
+			
 				if units[current_unit] == player:
 					emit_signal("player_turn")
 				else:
