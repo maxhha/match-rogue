@@ -97,11 +97,17 @@ use_parent_material = true
 scale = Vector2( 4, 4 )
 
 [node name="turrel_small" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 6.75, 40.25 )
+position = Vector2( 55, 9.5 )
+rotation = 1.57079
 time = 1
 
 [node name="turrel_small2" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 7.75, 24.25 )
+position = Vector2( 5.5, 38.5 )
+time = 1
+
+[node name="turrel_small3" parent="items" instance=ExtResource( 5 )]
+position = Vector2( 39.25, 73 )
+rotation = -1.57079
 time = 1
 
 [node name="units" type="Node2D" parent="."]

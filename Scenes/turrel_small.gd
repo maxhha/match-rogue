@@ -10,6 +10,7 @@ var shoot_dir = Vector2(1,0)
 signal dead
 
 func _ready():
+	
 	if time >= reload_timeout - 1:
 		play('reload')
 		frame = frames.get_frame_count('reload')-1

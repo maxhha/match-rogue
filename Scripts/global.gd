@@ -23,9 +23,9 @@ func clever_rotate(obj, dir):
 			obj.flip_v = false
 			obj.rotation = 0
 		Vector2.UP:
-			obj.flip_h = true
-			obj.flip_v = false
-			obj.rotation = PI/2
+			obj.flip_h = false
+			obj.flip_v = true
+			obj.rotation = -PI/2
 		Vector2.DOWN:
 			obj.flip_h = false
 			obj.flip_v = false

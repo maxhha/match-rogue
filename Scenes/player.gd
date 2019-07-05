@@ -8,7 +8,7 @@ var health = 1 setget set_health
 func set_health(h):
 	health = h
 	emit_signal("health_changed", h)
-	if health <= 0:
+	if health <= 0 and STATE != DEAD:
 		emit_signal("dead")
 		STATE = DEAD
 		_timer = DEAD_TIME
