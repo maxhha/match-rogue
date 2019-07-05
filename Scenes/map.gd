@@ -84,6 +84,7 @@ func _ready():
 	if find_node("items", false):
 		for i in $items.get_children():
 			add_item(i, false)
+	
 	next()
 
 func _on_dead_obj(u):
@@ -205,6 +206,7 @@ func get(p):
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
 		var p = $walls.get_local_mouse_position()
+		
 		if get_used_rect().has_point(p):
 			var i = get(local2grid(p))
 			if i and i != player:

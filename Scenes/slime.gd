@@ -35,7 +35,7 @@ func _process(delta):
 		DEAD:
 			dead_fade_out(delta)
 
-var _last_turn = Vector2(sign(scale.x), 0)
+onready var _last_turn = Vector2(sign(scale.x), 0)
 
 func turn(map):
 	var possible_moves = [Vector2(-1, 0), Vector2(1, 0)] 

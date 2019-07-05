@@ -4,14 +4,14 @@
 [ext_resource path="res://Scenes/map.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/bg_image0.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/wall_tileset0.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/turrel_small.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/player/player_idle_0.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/player/player_idle_1.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/player/player_jump_0.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/player/player_jump_1.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/level_label.tscn" type="PackedScene" id=12]
 
 [sub_resource type="TileSet" id=1]
 0/name = "wall"
@@ -49,31 +49,31 @@
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "idle",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "jump_down",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "jump_up",
 "speed": 2.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "stand",
-"speed": 2.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
-"loop": true,
-"name": "jump_down",
 "speed": 2.0
 } ]
 
 [node name="map" type="Node2D"]
 material = ExtResource( 1 )
 script = ExtResource( 2 )
-WIDTH = 5
+WIDTH = 3
 HEIGHT = 3
 
 [node name="bg" type="Sprite" parent="."]
@@ -82,7 +82,7 @@ scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 96, 64 )
+region_rect = Rect2( 0, 0, 64, 64 )
 
 [node name="walls" type="TileMap" parent="."]
 use_parent_material = true
@@ -90,30 +90,22 @@ scale = Vector2( 4, 4 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 327681, 1, 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 2, 6, 0, 327683, 65536, 0, 196608, 65542, 0, 196613, 131072, 0, 131072, 131078, 0, 65541, 196608, 0, 131073, 196614, 1, 1, 262145, 0, 262147, 262146, 0, 262146, 262147, 0, 262145, 262148, 0, 262146, 262149, 0, 262147 )
+tile_data = PoolIntArray( 0, 0, 327681, 1, 0, 2, 2, 0, 1, 3, 0, 3, 4, 0, 327683, 65536, 0, 196608, 65540, 0, 65541, 131072, 0, 131072, 131076, 0, 131077, 196608, 0, 131073, 196612, 1, 1, 262145, 0, 262147, 262146, 0, 262146, 262147, 0, 262145 )
 
 [node name="items" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
-[node name="turrel_small" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 55, 9.5 )
-rotation = 1.57079
-time = 1
-
-[node name="turrel_small2" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 5.5, 38.5 )
-time = 1
-
-[node name="turrel_small3" parent="items" instance=ExtResource( 5 )]
-position = Vector2( 39.25, 73 )
-rotation = -1.57079
-time = 1
-
 [node name="units" type="Node2D" parent="."]
 use_parent_material = true
 scale = Vector2( 4, 4 )
 
-[node name="player" parent="units" instance=ExtResource( 6 )]
+[node name="player" parent="units" instance=ExtResource( 5 )]
 position = Vector2( 23.25, 55.75 )
 frames = SubResource( 2 )
+
+[node name="Label" parent="." instance=ExtResource( 12 )]
+margin_left = 34.0
+margin_right = 288.0
+text = "swap crystals
+to move"

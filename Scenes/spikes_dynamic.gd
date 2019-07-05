@@ -1,7 +1,7 @@
 extends AnimatedSprite
 
 var hidden = true
-var activated = false
+export (bool) var activated = false
 var map_pos
 
 # warning-ignore:unused_signal

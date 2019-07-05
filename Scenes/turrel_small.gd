@@ -31,7 +31,9 @@ func turn(map):
 		var a = Arrow.instance()
 		a.set_dir(shoot_dir)
 		map.add_item(a, map_pos)
-		a.position += map.CELL_SIZE * shoot_dir
+		a.position += (map.CELL_SIZE - 1) * shoot_dir
+		# CELL_SIZE - 1 = it needs to be so
+		# blood particles spawn in right direction
 		time = 0
 	elif time >= reload_timeout - 1:
 		play('reload')

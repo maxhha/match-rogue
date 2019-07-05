@@ -47,6 +47,9 @@ func _ready():
 func connect_level(level):
 	self.level = level
 	self.player = level.player
+	
+	level.connect('show_info', self, "_on_map_show_info")
+	
 	level.connect("player_turn", matchControl, "set_can_swap", [true])
 	player.connect("exited", self, "restart")
 # warning-ignore:return_value_discarded

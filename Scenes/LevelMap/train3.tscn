@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/PixelShader.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/map.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Sprites/player/player_jump_2.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/player/player_jump_3.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/slime.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/level_label.tscn" type="PackedScene" id=13]
 
 [sub_resource type="TileSet" id=1]
 0/name = "wall"
@@ -102,3 +103,21 @@ frames = SubResource( 2 )
 
 [node name="slime" parent="units" instance=ExtResource( 12 )]
 position = Vector2( 71.75, 53.75 )
+
+[node name="Label" parent="." instance=ExtResource( 13 )]
+margin_left = 64.0
+margin_top = 84.0
+margin_right = 318.0
+margin_bottom = 237.0
+text = "tap on enemy to view info"
+
+[node name="lbl2" parent="." instance=ExtResource( 13 )]
+visible = false
+margin_left = 70.0
+margin_top = 6.0
+margin_right = 324.0
+margin_bottom = 198.0
+text = "you can hit an enemy
+if your PWR numbers are more"
+[connection signal="move_finished" from="units/slime" to="Label" method="hide"]
+[connection signal="move_finished" from="units/slime" to="lbl2" method="show"]

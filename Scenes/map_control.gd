@@ -2,17 +2,19 @@ extends Control
 
 var levels = [
 	"train1.tscn",
-	"train1.tscn",
-	"train1.tscn",
-	"train1.tscn",
 	"train2.tscn",
 	"train3.tscn",
 	"test1.tscn",
 	"test4.tscn",
 	"test2.tscn",
+	"test8.tscn",
 	"test5.tscn",
 	"test3.tscn",
-	"end.tscn"]
+	"test6.tscn",
+	"test9.tscn",
+	"test7.tscn",
+	"test10.tscn",
+	"end.tscn"] # ~36 min of gameplay
 
 var current = null
 

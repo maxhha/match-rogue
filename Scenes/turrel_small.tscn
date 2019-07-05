@@ -25,7 +25,6 @@ animations = [ {
 "dynamic_item",
 ]]
 use_parent_material = true
-position = Vector2( -1, 0 )
 frames = SubResource( 1 )
 animation = "shoot"
 frame = 2
