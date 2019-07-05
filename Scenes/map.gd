@@ -61,7 +61,7 @@ func _ready():
 		return
 	
 	bullets = GroupTurn.new()
-	units.append(bullets) 
+	units.append(bullets)
 	
 	global.map = self
 	
@@ -84,6 +84,7 @@ func _ready():
 	if find_node("items", false):
 		for i in $items.get_children():
 			add_item(i, false)
+	next()
 
 func _on_dead_obj(u):
 	map[u.map_pos] = null

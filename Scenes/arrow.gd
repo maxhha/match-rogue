@@ -48,19 +48,24 @@ func turn(map):
 				map.wait(self, "move_finished")
 			
 			if map.is_wall(p):
+# warning-ignore:return_value_discarded
 				connect(finish_signal, self, "play", ["die"])
+# warning-ignore:return_value_discarded
 				connect(finish_signal, self, "connect",
 					["animation_finished", self, "start_dead"],
 					CONNECT_DEFERRED)
 			else:
 				var u = map.get(p)
 				if u:
+# warning-ignore:return_value_discarded
 					connect(finish_signal, u, 
 						"get_damage", [1, self],
 						CONNECT_ONESHOT)
+# warning-ignore:return_value_discarded
 				connect(finish_signal, self,
 					"move", [map.grid2local(p) - map.CELL_SIZE*dir*0.5],
 					CONNECT_ONESHOT)
+# warning-ignore:return_value_discarded
 				connect(finish_signal, self, "connect",
 					["move_finished", self, "queue_free"],
 					CONNECT_DEFERRED | CONNECT_ONESHOT)

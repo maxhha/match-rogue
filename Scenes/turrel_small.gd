@@ -23,12 +23,14 @@ func _ready():
 var Arrow = preload("res://Scenes/arrow.tscn")
 
 func turn(map):
+	
 	time += 1
 	if time >= reload_timeout:
 		play('shoot')
 		var a = Arrow.instance()
 		a.set_dir(shoot_dir)
-		map.add_item(a, map_pos + shoot_dir)
+		map.add_item(a, map_pos)
+		a.position += map.CELL_SIZE * shoot_dir
 		time = 0
 	elif time >= reload_timeout - 1:
 		play('reload')

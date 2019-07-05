@@ -41,5 +41,7 @@ animations = [ {
 use_parent_material = true
 frames = SubResource( 1 )
 animation = "idle"
+frame = 1
 playing = true
+offset = Vector2( 0, -1 )
 script = ExtResource( 16 )
