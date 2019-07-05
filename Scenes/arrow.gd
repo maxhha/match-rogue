@@ -35,29 +35,47 @@ func turn(map):
 	
 	while distance > 0:
 		var p = new_pos + dir
+		
 		if map.is_free(p): # if next cell is empty
 			new_pos = p # move 
 			distance -= 1
-		else: 
-			emit_signal('dead') # destroy
+		else:
+			var finish_signal = "dead"
+			
 			if new_pos != map_pos:
+				finish_signal = "move_finished"
 				move(map.grid2local(new_pos))
-# warning-ignore:return_value_discarded
-				connect("move_finished", self, "play", ["die"])
-# warning-ignore:return_value_discarded
-				connect("move_finished", self, "connect", ["animation_finished", self, "start_dead"], CONNECT_DEFERRED)
 				map.wait(self, "move_finished")
+			
+			if map.is_wall(p):
+				connect(finish_signal, self, "play", ["die"])
+				connect(finish_signal, self, "connect",
+					["animation_finished", self, "start_dead"],
+					CONNECT_DEFERRED)
 			else:
-				play('die')
-# warning-ignore:return_value_discarded
-				connect("animation_finished", self, "start_dead", [], CONNECT_DEFERRED)
+				var u = map.get(p)
+				if u:
+					connect(finish_signal, u, 
+						"get_damage", [1, self],
+						CONNECT_ONESHOT)
+				connect(finish_signal, self,
+					"move", [map.grid2local(p) - map.CELL_SIZE*dir*0.5],
+					CONNECT_ONESHOT)
+				connect(finish_signal, self, "connect",
+					["move_finished", self, "queue_free"],
+					CONNECT_DEFERRED | CONNECT_ONESHOT)
+			
+			emit_signal('dead')
 			break
+
+			
 	if distance == 0:
 		move(map.grid2local(new_pos))
 		map_pos = new_pos
 		map.wait(self, "move_finished")
 	
 	map.next()
+
 
 func start_dead():
 	STATE = DEAD
