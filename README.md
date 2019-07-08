@@ -1,4 +1,4 @@
-# March Rogue
+# Match Rogue
 ## Description
 Match Rogue - a turn based platformer with match3 controls. 
 ## Idea
